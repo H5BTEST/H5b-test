@@ -1,0 +1,91 @@
+<div class="blogsidebar">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'categories' -%}
+        <div class="blog_side_wrapper">
+          <div class="blog_sidebar_title">
+            {{ block.settings.title }}
+          </div>
+          <ul class="sidebar_blog blog_menu">
+            {%- for link in block.settings.menu.links -%}
+              <li class="{% if link.active or link.child_active %} active{% endif %}">
+                <a href="{{ link.url }}">
+                  <span>{{ link.title | split: '[label' | first }}</span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- when 'tags' -%}
+       <div class="blog_side_wrapper">
+          <div class="blog_sidebar_title">
+            {{ block.settings.title }}
+          </div>
+          <ul class="blogtagslist sidebar_blog">
+            {% for tag in blog.all_tags limit: 8 %}
+              {% if current_tags contains tag %}
+                <li class="active">
+                  <span>{{ tag }}</span>
+                </li>
+              {% else %}
+                <li class="">{{ tag | link_to_tag: tag }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {%- when 'recent_post' -%}
+       <div class="blog_side_wrapper">
+          <div class="blog_sidebar_title">{{ block.settings.title }}</div>
+            <div class="sidebar_blog">
+              {% for article in blogs[blog.handle].articles limit: block.settings.maximum %}
+              <div class="flex-nowrap">
+                <div class="recenet_blog_img">
+                  <a href="{{ article.url }}">
+                    <div class="media" style="height: 80px; width: 80px; border-radius: var(--media-radius);">
+                      <img srcset="
+                            {% if article.image.width >= 350 %}{{ article.image | image_url: width: 350 }} 350w,{% endif %}
+                            {% if article.image.width >= 750 %}{{ article.image | image_url: width: 750 }} 750w,{% endif %}
+                            {% if article.image.width >= 1100 %}{{ article.image | image_url: width: 1100 }} 1100w,{% endif %}
+                            {% if article.image.width >= 1500 %}{{ article.image | image_url: width: 1500 }} 1500w,{% endif %}
+                            {% if article.image.width >= 2200 %}{{ article.image | image_url: width: 2200 }} 2200w,{% endif %}
+                            {% if article.image.width >= 3000 %}{{ article.image | image_url: width: 3000 }} 3000w,{% endif %}
+                            {{ article.image | image_url }} {{ article.image.width }}w
+                          "
+                        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 }}px, (min-width: 750px) calc(100vw - 10rem), 100vw"
+                        src="{{ article.image | image_url: width: 1100 }}" loading="eager" fetchpriority="high"
+                        width="{{ article.image.width }}" height="{{ article.image.height }}"
+                        alt="{{ article.image.alt | escape }}">
+                    </div>
+                  </a>
+                </div>
+                <div class="post_content">
+                  <a class="blog-post-title" href="{{ article.url }}" aria-label="{{ article.title }}">
+                    {{ article.title | truncate: 30 }}
+                  </a>
+                  <div class="blog-post-date">
+                    <time datetime="{{ article.published_at | date: '%b %d %Y' }}">
+                      {{ article.published_at | date: '%b %d %Y' }}
+                    </time>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+        </div>
+      {%- when 'image_banner' -%}
+       <div class="blog-banner">
+         <a {% if block.settings.first-banner-btn-url %} href="{{ block.settings.first-banner-btn-url }}" {% else %} role="link" aria-disabled="true" {% endif %} {% if block.settings.open_link %}target="_blank"{% endif %}>
+            {% if block.settings.image != blank %}
+            <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.height-ratio }}%">
+              {{ block.settings.image | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'magniflier w-100' }}
+            </div>
+            {% else %}
+            <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.height-ratio }}%">
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+            </div>
+            {% endif %}
+         </a>
+       </div>
+    {%- endcase -%}
+  {%- endfor -%}
+</div>

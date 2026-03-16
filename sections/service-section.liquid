@@ -1,0 +1,361 @@
+<div class="service-main-wrapper section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  {% if section.settings.subtitle != blank or section.settings.title != blank or section.settings.description != blank %}
+    <div class="page-width">
+      <div class="service__title title-bottom-space {% if settings.animations_reveal_on_scroll %}scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %} {{ section.settings.main_title_alignment }}">
+        {%- if section.settings.subtitle != blank -%}
+          <div class="sec_subheading">{{ section.settings.subtitle }}</div>
+        {% endif %}
+        {%- if section.settings.title != blank -%}
+          <div class="sec_heading h2">{{ section.settings.title }}</div>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="sec_content">{{ section.settings.description }}</div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+  <div class="{% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}">
+    <div class="service-inner-row swiper-container"
+      data-desktop="{{ section.settings.columns_desktop }}" data-largetablet="{{ section.settings.columns_large_tablet }}"
+      data-tablet="{{ section.settings.columns_tablet }}" data-mobile="{{ section.settings.columns_mobile }}" data-autoplay="{{ section.settings.autoplay_enable }}"
+      data-loop="{{ section.settings.loop }}" data-speed="{{ section.settings.speed }}">
+      <div class="service-trap swiper-wrapper">
+        {% for block in section.blocks %}
+        {% if block.type == 'service' %}
+        <div class="service-partition swiper-slide ship-{{ block.id }} {% if settings.animations_reveal_on_scroll %}scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %}">
+          <div class="service-flex ship-flex-{{ block.id }}">
+            <div class="service-content-specification {{ section.settings.icon_width }}">
+              {% if block.settings.service_icon != blank %}
+                {{ block.settings.service_icon | image_url: width: 200 | image_tag : loading: 'lazy', class: 'magniflier w-100' }}
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+              {% endif %}
+              {% if block.settings.service_heading != blank %}
+                <div class="service-heading-class h2">{{ block.settings.service_heading }}</div>
+              {% endif %}
+              {% if block.settings.service_paragraph != blank %}
+                <div class="service-paragraph-class theme_main_description">{{ block.settings.service_paragraph }}</div>
+              {% endif %}
+            </div>
+          </div>
+          </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% if section.settings.arrows %}
+        <div class="swiper-buttons">
+          <div class="swiper-button-next service-swiper-button-next"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+          <div class="swiper-button-prev service-swiper-button-prev"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+        </div>
+      {% endif %}
+      {% if section.settings.dots -%}
+        <div class="swiper-pagination service-swiper-pagination" id="swiper-pagination-{{section.id}}" style="position: inherit;"></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+                  
+{% style %}
+{% for block in section.blocks %}
+  {% if block.type == 'service' %}
+     .ship-flex-{{ block.id }} .service-content-specification{
+      display: inline-block;
+      vertical-align: middle;
+      text-align: {{ block.settings.service_content_alignment }};
+    }
+    .service-partition.ship-{{ block.id }} .service-flex {
+      text-align: {{ block.settings.service_block_alignment }};
+    }
+  {% endif %}
+{% endfor %}
+.section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+@media screen and (max-width: 991px) {
+  .section-{{ section.id }}-padding {
+    padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+    padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+  }
+}
+@media screen and (max-width: 767px) {
+  .section-{{ section.id }}-padding {
+    padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+    padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+  }
+}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "service section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.header_text.content"
+    }, 
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Text about your branding"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Heading",
+      "default": "service section"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Content",
+      "default": "Pair text with an image to focus on your brand and description of your brand."
+    },
+    {
+      "type": "select",
+      "id": "main_title_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "label": "Text alignment"
+    },
+    {
+      "type": "header",
+      "content": "Service slider setting"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 0.2,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.columns_desktop.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_large_tablet",
+      "min": 1,
+      "max": 4,
+      "step": 0.2,
+      "default": 3,
+      "label": "Large tablet columns"
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "min": 1,
+      "max": 4,
+      "step": 0.2,
+      "default": 2,
+      "label": "Tablet columns"
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 0.2,
+      "default": 1,
+      "label": "Mobile columns"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_enable",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Navigation arrows",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "dots",
+      "label": "Pagination dots",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "speed",
+      "label": "Slide speed",
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Service icon setting"
+    },
+    {
+      "type": "select",
+      "id": "icon_width",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "label": "Service icon width",
+      "default": "small"
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "service_icon",
+          "label": "Image"
+        },
+        {
+          "type": "textarea",
+          "id": "service_heading",
+          "default": "Heading",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "service_paragraph",
+          "default": "Content",
+          "label": "Content"
+        },
+        {
+          "type": "select",
+          "id": "service_content_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left",
+          "label": "Content alignment"
+        },
+        {
+          "type": "select",
+          "id": "service_block_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left",
+          "label": "Content block alignment"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Service section",
+      "blocks": [
+        {
+          "type": "service"
+        },
+        {
+          "type": "service"
+        },
+        {
+          "type": "service"
+        },
+        {
+          "type": "service"
+        },
+        {
+          "type": "service"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,405 @@
+<div class="custom-reels-section section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  {% if section.settings.main_subheading != blank or section.settings.main_heading != blank or section.settings.main_paragraph != blank %}
+    <div class="page-width">
+      <div class="reels__title title-bottom-space {{ section.settings.main_title_alignment }} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %}">
+        {% if section.settings.main_subheading != blank %}<div class="sec_subheading">{{ section.settings.main_subheading }}</div>{% endif %}
+        {% if section.settings.main_heading != blank %}<div class="sec_heading h2">{{ section.settings.main_heading }}</div>{% endif %}
+        {% if section.settings.main_paragraph != blank %}<div class="sec_content">{{ section.settings.main_paragraph }}</div>{% endif %}
+      </div>
+    </div>
+  {% endif %}
+  <div class="{% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}">
+  <slider-component class="swiper-container custom-reels-slider"
+      data-desktop="{{ section.settings.columns_desktop }}" data-largetablet="{{ section.settings.columns_large_tablet }}"
+      data-tablet="{{ section.settings.columns_tablet }}" data-mobile="{{ section.settings.columns_mobile }}" data-autoplay="{{ section.settings.autoplay_enable }}"
+      data-loop="{{ section.settings.loop }}" data-speed="{{ section.settings.speed }}" data-desktopspace="{{ settings.spacing_grid_horizontal }}" data-mobilespace="{{ settings.spacing_grid_horizontal | divided_by: 2 }}">
+      <ul class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+          <li class="swiper-slide content-{{ block.id }} {% if settings.animations_reveal_on_scroll %}scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}"
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+            {% endif %}>
+            <div class="product-videos">
+              {% if block.settings.local_url1 != blank or block.settings.local_url2 != blank or block.settings.local_url3 != blank %}<a href="gallery-1-{{ block.id }}" class="video-card open-gallery">{% else %}<div class="video-card">{% endif %}
+              {% if block.settings.local_url != blank %}
+                <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.height_ratio }}%">
+                  <video id="Mp4Video-{{ section.id }}" class="about_video" data-type="mp4"
+                    src="{{ block.settings.local_url }}" loop muted playsinline autoplay></video>
+                </div>
+              {% else %}
+                <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.height_ratio }}%">
+                  {{ 'collection-4' | placeholder_svg_tag: 'placeholder-svg placeholder placeholder-bg' }}
+                </div>
+              {% endif %}
+            {% if block.settings.local_url1 != blank or block.settings.local_url2 != blank or block.settings.local_url3 != blank %}</a>{% else %}</div>{% endif %}
+            {% if block.settings.local_url1 != blank or block.settings.local_url2 != blank or block.settings.local_url3 != blank %}
+              <div id="gallery-1-{{ block.id }}" class="visually-hidden">
+                {% if block.settings.local_url != blank %}<a href="{{ block.settings.local_url }}" class="mfp-video" data-product-html="#product-info-1">Video</a>ichha{% endif %}
+                {% if block.settings.local_url1 != blank %}<a href="{{ block.settings.local_url1 }}" class="mfp-video" data-product-html="#product-info-2">Video</a>{% endif %}
+                {% if block.settings.local_url2 != blank %}<a href="{{ block.settings.local_url2 }}" class="mfp-video" data-product-html="#product-info-3">Video</a>{% endif %}
+                {% if block.settings.local_url3 != blank %}<a href="{{ block.settings.local_url3 }}" class="mfp-video" data-product-html="#product-info-4">Video</a>{% endif %}
+              </div>
+            {% endif %}
+            {% if block.settings.product != blank %}
+              <div class="product_details">
+                <div class="product_image">
+                  {{ block.settings.product.featured_media | image_url: width: 50 | image_tag : loading: 'lazy', class: 'w-100' }}
+                </div>                  
+                <div class="product_content">
+                  <a {% if block.settings.product != blank %} href="{{ block.settings.product.url }}" {% else %} role="link" aria-disabled="true" {% endif %} class="product-title h4">
+                   {{ block.settings.product.title }}
+                  </a>
+                  {% render 'price', product: block.settings.product, price_class: '', show_compare_at_price: true %}
+                </div>
+              </div>
+            {% endif %}
+            {% if block.settings.product != blank %}
+              <div id="product-info-1" class="visually-hidden">
+                <div class="product_details color-{{ section.settings.color_scheme }}">
+                  <div class="product_image">
+                    {{ block.settings.product.featured_media | image_url: width: 50 | image_tag : loading: 'lazy', class: 'w-100' }}
+                  </div>                  
+                  <div class="product_content">
+                    <a {% if block.settings.product != blank %} href="{{ block.settings.product.url }}" {% else %} role="link" aria-disabled="true" {% endif %} class="product-title h4">
+                     {{ block.settings.product.title }}
+                    </a>
+                    {% render 'price', product: block.settings.product, price_class: '', show_compare_at_price: true %}
+                    <a href="{{ block.settings.product.url }}" class="custom-button">Shop now</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            {% if block.settings.product1 != blank %}
+              <div id="product-info-2" class="visually-hidden">
+                <div class="product_details color-{{ section.settings.color_scheme }}">
+                  <div class="product_image">
+                    {{ block.settings.product1.featured_media | image_url: width: 50 | image_tag : loading: 'lazy', class: 'w-100' }}
+                  </div>                  
+                  <div class="product_content">
+                    <a {% if block.settings.product1 != blank %} href="{{ block.settings.product1.url }}" {% else %} role="link" aria-disabled="true" {% endif %} class="product-title h4">
+                     {{ block.settings.product1.title }}
+                    </a>
+                    {% render 'price', product: block.settings.product1, price_class: '', show_compare_at_price: true %}
+                    <a href="{{ block.settings.product1.url }}" class="custom-button">Shop now</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            {% if block.settings.product2 != blank %}
+              <div id="product-info-3" class="visually-hidden">
+                <div class="product_details color-{{ section.settings.color_scheme }}">
+                  <div class="product_image">
+                    {{ block.settings.product2.featured_media | image_url: width: 50 | image_tag : loading: 'lazy', class: 'w-100' }}
+                  </div>                  
+                  <div class="product_content">
+                    <a {% if block.settings.product2 != blank %} href="{{ block.settings.product2.url }}" {% else %} role="link" aria-disabled="true" {% endif %} class="product-title h4">
+                     {{ block.settings.product2.title }}
+                    </a>
+                    {% render 'price', product: block.settings.product2, price_class: '', show_compare_at_price: true %}
+                    <a href="{{ block.settings.product2.url }}" class="custom-button">Shop now</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            {% if block.settings.product3 != blank %}
+              <div id="product-info-4" class="visually-hidden">
+                <div class="product_details color-{{ section.settings.color_scheme }}">
+                  <div class="product_image">
+                    {{ block.settings.product3.featured_media | image_url: width: 50 | image_tag : loading: 'lazy', class: 'w-100' }}
+                  </div>                  
+                  <div class="product_content">
+                    <a {% if block.settings.product3 != blank %} href="{{ block.settings.product3.url }}" {% else %} role="link" aria-disabled="true" {% endif %} class="product-title h4">
+                     {{ block.settings.product3.title }}
+                    </a>
+                    {% render 'price', product: block.settings.product3, price_class: '', show_compare_at_price: true %}
+                    <a href="{{ block.settings.product3.url }}" class="custom-button">Shop now</a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+      {% if section.settings.arrows%}
+        <div class="swiper-buttons">
+          <div class="swiper-button-next videoproduct-swiper-button-next">{{- 'icon-caret.svg' | inline_asset_content -}}</div>
+          <div class="swiper-button-prev videoproduct-swiper-button-prev">{{- 'icon-caret.svg' | inline_asset_content -}}</div>
+        </div>
+      {% endif %}
+      {% if section.settings.dots-%}
+        <div class="swiper-pagination videoproduct-swiper-pagination" id="swiper-pagination-{{section.id}}" style="position: inherit;"></div>
+      {% endif %}
+    </slider-component>
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+    }
+  }
+{%- endstyle -%}
+
+{% schema %}
+  {
+    "name": "Custom reels",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Make section full width",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "t:sections.featured-collection.settings.header_text.content"
+      },
+      {
+        "type": "text",
+        "id": "main_subheading",
+        "label": "Subheading",
+        "default": "Reels"
+      },
+      {
+        "type": "textarea",
+        "id": "main_heading",
+        "label": "Heading",
+        "default": "Your brand reels"
+      },
+      {
+        "type": "richtext",
+        "id": "main_paragraph",
+        "label": "Content",
+        "default": "<p>Pair text with an image to focus on your chosen product.</p>"
+      },
+      {
+        "type": "select",
+        "id": "main_title_alignment",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "header",
+        "content": "Slider settings"
+      },
+      {
+        "type": "range",
+        "id": "columns_desktop",
+        "min": 1,
+        "max": 5,
+        "step": 0.2,
+        "default": 5,
+        "label": "t:sections.featured-collection.settings.columns_desktop.label"
+      },
+      {
+        "type": "range",
+        "id": "columns_large_tablet",
+        "min": 1,
+        "max": 4,
+        "step": 0.2,
+        "default": 4,
+        "label": "Large tablet columns"
+      },
+      {
+        "type": "range",
+        "id": "columns_tablet",
+        "min": 1,
+        "max": 3,
+        "step": 0.2,
+        "default": 3,
+        "label": "Tablet columns"
+      },
+      {
+        "type": "range",
+        "id": "columns_mobile",
+        "min": 1,
+        "max": 3,
+        "step": 0.2,
+        "default": 2,
+        "label": "Mobile columns"
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay_enable",
+        "label": "Autoplay",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "arrows",
+        "label": "Navigation arrows",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "dots",
+        "label": "Pagination dots",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "loop",
+        "label": "Loop",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "speed",
+        "label": "Slide speed",
+        "default": "800"
+      },
+      {
+        "type": "header",
+        "content": "Color settings"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "info": "t:sections.all.colors.has_cards_info",
+        "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "column",
+        "name": "Column",
+        "settings": [
+          {
+            "type": "url",
+            "id": "local_url",
+            "label": "Local link",
+            "info": "Local video CDN link here."
+          },
+          {
+            "type": "range",
+            "id": "height_ratio",
+            "min": 20,
+            "max": 200,
+            "step": 2,
+            "unit": "px",
+            "label": "Image height ratio",
+            "default": 120
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          },
+          {
+            "type": "header",
+            "content": "Popup videos"
+          },
+          {
+            "type": "url",
+            "id": "local_url1",
+            "label": "Local link",
+            "info": "Local video CDN link here."
+          },
+          {
+            "type": "product",
+            "id": "product1",
+            "label": "Product"
+          },
+          {
+            "type": "url",
+            "id": "local_url2",
+            "label": "Local link",
+            "info": "Local video CDN link here."
+          },
+          {
+            "type": "product",
+            "id": "product2",
+            "label": "Product"
+          },
+          {
+            "type": "url",
+            "id": "local_url3",
+            "label": "Local link",
+            "info": "Local video CDN link here."
+          },
+          {
+            "type": "product",
+            "id": "product3",
+            "label": "Product"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom reels",
+        "blocks": [
+          {
+            "type": "column"
+          },
+          {
+            "type": "column"
+          },
+          {
+            "type": "column"
+          },
+          {
+            "type": "column"
+          },
+          {
+            "type": "column"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

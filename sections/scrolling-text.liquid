@@ -1,0 +1,267 @@
+<section class="marquee-with-text d-inline-block section-{{ section.id }}-padding section-{{ section.id }}-margin marquee-{{ section.id }} {% if section.settings.border_concept %}border{% endif %}">
+  <div class="{{ section.settings.section_width }}">
+    <div class="scrolling_content">
+      {%- for i in (0..2) -%}
+        <div class="scroll marquee-text-function marquee-text-function--{{ section.settings.animation_style }}">
+          {%- for block in section.blocks -%}
+            {% if block.settings.image != blank %}<div class="marquee-with-text-inner-part">{% endif %}
+              {% if block.settings.image != blank %}<div class="marquee-img">{{ block.settings.image | image_url: width: 100 | image_tag : loading: 'lazy', class: 'w-100' }}</div>{% endif %}
+              <div class="marquee_wrap h3 {% if block.settings.image == blank %}marquee_wrap_img{% endif %}" style="color: {{ block.settings.s_text_color }};">{{ block.settings.content }}</div>
+            {% if block.settings.image != blank %}</div>{% endif %}
+
+          {%- endfor -%}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+                      
+{% style %}
+.marquee-with-text.marquee-{{ section.id }} {
+  background-color: {{ section.settings.background_color }};
+}
+.marquee-with-text.marquee-{{ section.id }}.border {
+  border-top: 1px solid {{ section.settings.border_color }};
+  border-bottom: 1px solid {{ section.settings.border_color }};
+}
+.marquee-with-text.marquee-{{ section.id }} .scrolling_content .marquee-text-function {
+  animation: {{ section.settings.text_time }}s infinite linear;
+}
+.marquee-with-text.marquee-{{ section.id }} .scrolling_content .marquee-text-function--left-right {
+  animation-name: left-right;
+}
+.marquee-with-text.marquee-{{ section.id }} .scrolling_content .marquee-text-function--right-left {
+  animation-name: right-left;
+}
+.marquee-with-text.marquee-{{ section.id }} .scrolling_content .marquee-with-text-inner-part{
+  padding: 0px {{ section.settings.text_spacing }}px;
+  column-gap: {{ section.settings.text_spacing }}px;
+}
+.marquee-with-text.marquee-{{ section.id }} .scrolling_content .marquee_wrap_img {
+  padding: 0px {{ section.settings.text_spacing }}px;
+}
+.section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+@media screen and (max-width: 991px) {
+  .section-{{ section.id }}-padding {
+    padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+    padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+  }
+}
+@media screen and (max-width: 767px) {
+  .section-{{ section.id }}-padding {
+    padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+    padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+  }
+}
+@media screen and (max-width: 991px) {
+  .marquee-with-text.marquee-{{ section.id }} .scrolling_content .marquee-with-text-inner-part{
+    padding: 0px {{ section.settings.text_spacing | divided_by: 2 }}px;
+    column-gap: {{ section.settings.text_spacing | divided_by: 2 }}px;
+  }
+  .marquee-with-text.marquee-{{ section.id }} .scrolling_content .marquee_wrap_img {
+    padding: 0px {{ section.settings.text_spacing | divided_by: 2 }}px;
+  }
+}
+
+#shopify-section-{{ section.id }} {
+  --scrolling-text-font-size: {% if section.settings.text_size == 'xsmall' %}1.125rem{% elsif section.settings.text_size == 'small' %}2rem{% elsif section.settings.text_size == 'medium' %}2.5rem{% elsif section.settings.text_size == 'large' %}3rem{% else %}5rem{% endif %};
+}
+@media screen and (min-width: 576px) {
+  #shopify-section-{{ section.id }} {
+    --scrolling-text-font-size: {% if section.settings.text_size == 'xsmall' %}1.125rem{% elsif section.settings.text_size == 'small' %}2.5rem{% elsif section.settings.text_size == 'medium' %}3.75rem{% elsif section.settings.text_size == 'large' %}5rem{% else %}7.5rem{% endif %};
+  }
+}
+@media screen and (min-width: 768px) {
+  #shopify-section-{{ section.id }} {
+    --scrolling-text-font-size: {% if section.settings.text_size == 'xsmall' %}1.5rem{% elsif section.settings.text_size == 'small' %}2.5rem{% elsif section.settings.text_size == 'medium' %}4.2rem{% elsif section.settings.text_size == 'large' %}8.75rem{% else %}12.5rem{% endif %};
+  }
+}
+
+{% assign numeric_value = section.settings.m_bottom | plus: 0 %}
+{% assign numeric_value_top = section.settings.m_top | plus: 0 %}
+@media screen and (max-width: 991px){
+  {% if numeric_value < 0 or numeric_value > 0  %}
+    .marquee-with-text.marquee-{{ section.id }} {
+      margin-bottom: 10px;
+    }
+  {% endif %}
+  {% if numeric_value_top < 0 or numeric_value_top > 0  %}
+    .marquee-with-text.marquee-{{ section.id }} {
+      margin-top: 10px;
+    }
+  {% endif %}
+}
+{% endstyle %}
+                      
+{% schema %}
+{
+  "name": "Scrolling text",
+  "class": "marquee-text-slider-section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": false
+    },
+    {
+      "type" : "checkbox",
+      "id" : "border_concept",
+      "label" : "Enable border",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "animation_style",
+      "options": [
+        {
+          "value": "left-right",
+          "label": "Left to right"
+        },
+        {
+          "value": "right-left",
+          "label": "Right to left"
+        }
+      ],
+      "default": "left-right",
+      "label": "Animation direction"
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "Text size",
+      "options": [
+        {
+          "value": "xsmall",
+          "label": "X-Small"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "xlarge",
+          "label": "X-Large"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "range",
+      "id": "text_time",
+      "min": 3,
+      "max": 80,
+      "step": 1,
+      "label": "Animation speed",
+      "unit": "s",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "label": "Content spacing",
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "scrolling_text",
+      "name": "Content",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "content",
+          "default": "Special offer text here",
+          "label": "Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "image"
+        },
+        {
+          "type": "color",
+          "id": "s_text_color",
+          "label": "Content color",
+          "default": "#121212"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling text",
+      "blocks": [
+        {
+          "type": "scrolling_text"
+        },
+        {
+          "type": "scrolling_text"
+        },
+        {
+          "type": "scrolling_text"
+        },
+        {
+          "type": "scrolling_text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

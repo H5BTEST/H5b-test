@@ -1,0 +1,153 @@
+{% if section.settings.enable-fake-popup %}
+  <ul class="fake-product-purchased text-{{ section.settings.popup-position }}">
+    {% for block in section.blocks %}
+      {%- assign card_product = all_products[block.settings.product] -%}
+        <li class="fake-product-product color-{{ section.settings.color_scheme }}">
+          
+            <a class="fake-product-main-title" href="{{ card_product.url | within: collection }}">      
+              <div class="fake-product-image">
+                <img
+                  srcset="{{ card_product.featured_image.src | image_url: width: 165 }} 165w"
+                  src="{{ card_product.featured_image.src | image_url: width: 165 }}"
+                  sizes="(min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                  alt="{{ card_product.featured_image.src.alt | escape }}"
+                  class="featured-image teaser lazyload"
+                  loading="lazy"
+                  width="{{ card_product.featured_image.src.width }}"
+                  height="{{ card_product.featured_image.src.height }}"
+                >
+              </div>
+              <div class="fake-product-details">
+                <span class="title">{{ card_product.title | truncate: 25 }}</span>
+                <p><span class="purchased">{{ section.settings.text }}</span>From<span class="location">{{ block.settings.address }}</span><span class="timing">{{ block.settings.time }}</span></p>  
+              </div>
+            </a>
+    
+          <button title="Close" class="close-button">
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+    
+        </li>           
+    {% endfor %}
+  </ul>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function () {
+  {% if section.settings.enable-fake-popup %}
+    var elements = document.querySelectorAll('.fake-product-purchased li');
+    var init_element = 0;
+
+    elements.forEach(el => el.classList.remove('active'));
+
+    function fadeInNextElement() {
+      var currentItem = elements[init_element];
+      var nextIndex = (init_element + 1) % elements.length;
+      var nextItem = elements[nextIndex];
+
+      if (currentItem) {
+        currentItem.classList.remove('active');
+      }
+      if (nextItem) {
+        nextItem.classList.add('active');
+      }
+
+      init_element = nextIndex;
+    }
+
+    setInterval(fadeInNextElement, 5000);
+  {% endif %}
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  var closeButtons = document.querySelectorAll('.close-button');
+
+  closeButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var productData = this.closest('.customer-purchased');
+      if (productData) {
+        productData.style.display = 'none';
+      }
+    });
+  });
+});
+
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Customer purchase",
+  "class": "customer-purchased",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable-fake-popup",
+      "label": "Enable fake popup",
+      "default": true
+    },
+    {
+      "type": "radio",
+      "id": "popup-position",
+      "label": "Popup position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Someone purchase a"
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "text",
+          "id": "address",
+          "default": "USA",
+          "label": "Location"
+        },
+        {
+          "type": "text",
+          "id": "time",
+          "default": "5 minute ago",
+          "label": "Time"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer purchase"
+    }
+  ]
+}
+{% endschema %}

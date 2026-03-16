@@ -1,0 +1,118 @@
+.contact-row{
+  display: flex;
+  margin: 0px -15px;
+}
+.contact-content-column, .contact-form-column{
+ max-width: 50%;
+ width: 100%;
+ float: left;
+ padding-left: 15px;
+ padding-right: 15px;
+} 
+.contact-content-wrapper{
+  display: flex;
+  width: 100%;
+}
+.contact-content-wrapper a{
+  color: rgba(var(--color-foreground), 0.75);
+}
+.contact-content-wrapper svg{
+  height: 24px;
+  width: 24px;
+}
+.contact-content-icon {
+  display: block;
+  padding-right: 15px;
+}
+.contact-content-icon svg{
+  fill: rgba(var(--color-custom));
+}
+.contact-information-pannel li {
+  margin-bottom: 25px;
+}
+.contact-information-pannel .info-paragraph {
+  margin: 0;
+  padding-bottom: 30px;
+  padding-right: 25px;
+}
+.contact-map iframe {
+  width: 100% !important;
+  border-radius: var(--media-radius);
+}
+.contact-map {
+  width: 100%;
+  padding-top: 30px;
+}
+.contact-information-pannel .sec_heading{
+  margin-bottom: 1rem;
+}
+.contact-content-info .h3{
+  font-size: 18px;
+}
+.contact-form-wrap{
+  max-width: 50%;
+  width: 100%;
+  margin: auto;
+}
+
+
+.contact img {
+  max-width: 100%;
+}
+
+.contact .form__message {
+  align-items: flex-start;
+}
+
+.contact .icon-success {
+  margin-top: 0.2rem;
+}
+
+.contact .field {
+  margin-bottom: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .contact .field {
+    margin-bottom: 2rem;
+  }
+}
+
+.contact__button {
+  margin-top: 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .contact__button {
+    margin-top: 4rem;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .contact__fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 2rem;
+  }
+}
+
+@media screen and (max-width: 991px){
+  .contact-content-column, .contact-form-column {
+    max-width: 100%;
+  }
+  .contact-form-column {
+    margin-top: 30px;
+  }
+  .contact-row {
+    flex-direction: column;
+  }
+  .contact-content-info .h3{
+    font-size: 16px;
+  }
+  .contact-content-info p{
+    font-size: 14px;
+  }
+  .contact-form-wrap{
+    max-width: 100%;
+  }
+}

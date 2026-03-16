@@ -1,0 +1,609 @@
+<div class="banner-section section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {% if section.settings.main_subheading != blank or section.settings.main_heading != blank or section.settings.main_paragraph != blank %}
+      <div class="collection__title title-bottom-space {{ section.settings.main_title_alignment }} {% if settings.animations_reveal_on_scroll %}scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %}">
+        {% if section.settings.main_subheading != blank %}<div class="sec_subheading">{{ section.settings.main_subheading }}</div>{% endif %}
+        {% if section.settings.main_heading != blank %}<div class="sec_heading h2">{{ section.settings.main_heading }}</div>{% endif %}
+        {% if section.settings.main_paragraph != blank %}
+          <div class="sec_content">{{ section.settings.main_paragraph }}</div>
+        {% endif %}
+      </div>
+     {% endif %}
+  </div>
+  <div class="{% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}">
+    <div class="banner-section-wrapper">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+        {%- when 'single-banner' -%}
+          <div class="first-banner-section col-lg-{{ block.settings.block-width }}">
+            <div class="banner-{{ block.id }} new-banner-wrapper">
+              <div class="banner-image {% if settings.animations_reveal_on_scroll %}scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}">
+                <a {% if block.settings.first-banner-btn-url %} href="{{ block.settings.first-banner-btn-url }}" {%
+                    else %} role="link" aria-disabled="true" {% endif %} >
+                  {% if block.settings.first-banner-image != blank %}
+                    <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.image-ratio }}%">
+                      {{ block.settings.first-banner-image | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+                    </div>
+                  {% else %}
+                  <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.image-ratio }}%">
+                    {{ 'collection-4' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                  </div>
+                  {% endif %}
+                <div class="banner-text banner-text--{{ block.settings.text_alignment1 }} banner-block--{{ block.settings.text_block_alignment1 }}">
+                  {% if block.settings.first-banner-subheading-text != blank %}
+                    <div class="sec_subheading">{{ block.settings.first-banner-subheading-text }}</div>
+                  {% endif %}
+                  {% if block.settings.first-banner-heading-text != blank %}
+                    <div class="sec_heading h2">{{ block.settings.first-banner-heading-text }}</div>
+                  {% endif %}
+                  <div class="button">{{
+                    block.settings.first-banner-btn-text }}</div>
+                </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          {%- when 'multi-banner' -%}
+          <div class="banner-{{ block.id }} second-banner-section col-lg-{{ block.settings.block-width2 }}">
+            <div class="right-inner-banner">
+              <div class="inner-banner-wrapper">
+              <div class="new-banner-wrapper inner-left-banner">
+                <div class="banner-image {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% else %}animate ad-2{% endif %}">
+                  <a {% if block.settings.second-banner-btn-url2 %} href="{{ block.settings.second-banner-btn-url2 }}" {%
+                      else %} role="link" aria-disabled="true" {% endif %}>
+                    {% if block.settings.second-banner-image2 != blank %}
+                    <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.image-ratio3 }}%">
+                      {{ block.settings.second-banner-image2 | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+                    </div>
+                    {% else %}
+                    <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.image-ratio3 }}%">
+                      {{ 'collection-4' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                    </div>
+                    {% endif %}
+                    <div class="banner-text banner-text--{{ block.settings.text_alignment2 }} banner-block--{{ block.settings.text_block_alignment2 }}">
+                      {% if block.settings.second-banner-subheading-text2 != blank %}
+                      <div class="sec_subheading">{{ block.settings.second-banner-subheading-text2 }}</div>
+                      {% endif %}
+                      {% if block.settings.second-banner-heading-text2 != blank %}
+                      <div class="sec_heading h2">{{ block.settings.second-banner-heading-text2 }}</div>
+                      {% endif %}
+                      <div class="button">{{
+                        block.settings.second-banner-btn-text2 }}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="new-banner-wrapper inner-right-banner">
+                <div class="banner-image {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% else %}animate ad-2{% endif %}">
+                  <a {% if block.settings.second-banner-btn-url3 %} href="{{ block.settings.second-banner-btn-url3 }}" {%
+                      else %} role="link" aria-disabled="true" {% endif %}>
+                    {% if block.settings.second-banner-image3 != blank %}
+                    <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.image-ratio4 }}%">
+                      {{ block.settings.second-banner-image3 | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+                    </div>
+                    {% else %}
+                    <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.image-ratio4 }}%">
+                      {{ 'collection-4' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                    </div>
+                    {% endif %}
+                    <div class="banner-text banner-text--{{ block.settings.text_alignment3 }} banner-block--{{ block.settings.text_block_alignment3 }}">
+                      {% if block.settings.second-banner-subheading-text3 != blank %}
+                      <div class="sec_subheading second-bottom-subheading">{{ block.settings.second-banner-subheading-text3 }}</div>
+                      {% endif %}
+                      {% if block.settings.second-banner-heading-text3 != blank %}
+                      <div class="sec_heading h2 second-bottom-heading">{{ block.settings.second-banner-heading-text3 }}</div>
+                      {% endif %}
+                      <div class="button">{{
+                        block.settings.second-banner-btn-text2 }}</div>
+                    </div>
+                   </a>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+    }
+  }
+{% endstyle %}
+  
+{% schema %}
+{
+  "name": "Banner section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.header_text.content"
+    }, 
+    {
+      "type": "text",
+      "id": "main_subheading",
+      "label": "Subheading",
+    },
+    {
+      "type": "textarea",
+      "id": "main_heading",
+      "label": "Heading",
+    },
+    {
+      "type": "richtext",
+      "id": "main_paragraph",
+      "label": "Content",
+    },
+    {
+      "type": "select",
+      "id": "main_title_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "single-banner",
+      "name": "single-banner",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Banner Settings"
+        },
+        {
+          "type": "select",
+          "id": "block-width",
+          "default": "6",
+          "options": [
+            {
+              "value": "4",
+              "label": "33.33%"
+            },
+            {
+              "value": "6",
+              "label": "50%"
+            },
+            {
+              "value": "12",
+              "label": "100%"
+            }
+          ],
+          "label": "Block width"
+        },
+        {
+          "type": "image_picker",
+          "id": "first-banner-image",
+          "label": "First banner image"
+        },
+        {
+          "type": "text",
+          "id": "first-banner-subheading-text",
+          "label": "Subheading",
+          "default": "Banner trend"
+        },
+        {
+          "type": "textarea",
+          "id": "first-banner-heading-text",
+          "label": "Heading",
+          "default": "Annouce your offer"
+        },
+        {
+          "type": "text",
+          "id": "first-banner-btn-text",
+          "label": "Button",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "first-banner-btn-url",
+          "label": "Button link"
+        },
+        {
+          "type": "range",
+          "id": "image-ratio",
+          "min": 10,
+          "max": 200,
+          "step": 2,
+          "unit": "px",
+          "label": "Image height ratio",
+          "default": 100
+        },
+        {
+          "type": "select",
+          "id": "text_alignment1",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "label": "Banner text alignment"
+        },
+        {
+          "type": "select",
+          "id": "text_block_alignment1",
+          "label": "Block position",
+          "options": [
+            {
+              "value": "top-left",
+              "label": "Top left"
+            },
+            {
+              "value": "top-center",
+              "label": "Top center"
+            },
+            {
+              "value": "top-right",
+              "label": "Top right"
+            },
+            {
+              "value": "middle-left",
+              "label": "Center left"
+            },
+            {
+              "value": "middle-center",
+              "label": "Center"
+            },
+            {
+              "value": "middle-right",
+              "label": "Center right"
+            },
+            {
+              "value": "bottom-left",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottom-center",
+              "label": "Bottom center"
+            },
+            {
+              "value": "bottom-right",
+              "label": "Bottom right"
+            }
+          ],
+          "default": "bottom-center"
+        }
+      ]
+    },
+    {
+      "type": "multi-banner",
+      "name": "multi-banner",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Banner Settings"
+        },
+        {
+          "type": "select",
+          "id": "block-width2",
+          "default": "6",
+          "options": [
+            {
+              "value": "4",
+              "label": "33.33%"
+            },
+            {
+              "value": "6",
+              "label": "50%"
+            },
+            {
+              "value": "12",
+              "label": "100%"
+            }
+          ],
+          "label": "Block width"
+        },
+        {
+          "type": "header",
+          "content": "First top banner Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "second-banner-image2",
+          "label": "First banner image"
+        },
+        {
+          "type": "text",
+          "id": "second-banner-subheading-text2",
+          "label": "Subheading",
+          "default": "Banner trend"
+        },
+        {
+          "type": "textarea",
+          "id": "second-banner-heading-text2",
+          "label": "Heading",
+          "default": "Annouce your offer"
+        },
+        {
+          "type": "text",
+          "id": "second-banner-btn-text2",
+          "label": "Button",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "second-banner-btn-url2",
+          "label": "Button link"
+        },
+        {
+          "type": "range",
+          "id": "image-ratio3",
+          "min": 10,
+          "max": 200,
+          "step": 2,
+          "unit": "px",
+          "label": "First image height ratio",
+          "default": 48
+        },
+        {
+          "type": "select",
+          "id": "text_alignment2",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center",
+          "label": "Banner text alignment"
+        },
+        {
+          "type": "select",
+          "id": "text_block_alignment2",
+          "label": "Block position",
+          "options": [
+            {
+              "value": "top-left",
+              "label": "Top left"
+            },
+            {
+              "value": "top-center",
+              "label": "Top center"
+            },
+            {
+              "value": "top-right",
+              "label": "Top right"
+            },
+            {
+              "value": "middle-left",
+              "label": "Center left"
+            },
+            {
+              "value": "middle-center",
+              "label": "Center"
+            },
+            {
+              "value": "middle-right",
+              "label": "Center right"
+            },
+            {
+              "value": "bottom-left",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottom-center",
+              "label": "Bottom center"
+            },
+            {
+              "value": "bottom-right",
+              "label": "Bottom right"
+            }
+          ],
+          "default": "middle-center"
+        },
+        {
+          "type": "header",
+          "content": "Second bottom banner Settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "second-banner-image3",
+          "label": "Second banner image"
+        },
+        {
+          "type": "text",
+          "id": "second-banner-subheading-text3",
+          "label": "Subheading",
+          "default": "Banner trend"
+        },
+        {
+          "type": "textarea",
+          "id": "second-banner-heading-text3",
+          "label": "Heading",
+          "default": "Annouce your offer"
+        },
+        {
+          "type": "text",
+          "id": "second-banner-btn-text3",
+          "label": "Button",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "second-banner-btn-url3",
+          "label": "Button link"
+        },
+        {
+          "type": "range",
+          "id": "image-ratio4",
+          "min": 10,
+          "max": 200,
+          "step": 2,
+          "unit": "px",
+          "label": "Second image height ratio",
+          "default": 48
+        },
+        {
+          "type": "select",
+          "id": "text_alignment3",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left",
+          "label": "Banner text alignment"
+        },
+        {
+          "type": "select",
+          "id": "text_block_alignment3",
+          "label": "Block position",
+          "options": [
+            {
+              "value": "top-left",
+              "label": "Top left"
+            },
+            {
+              "value": "top-center",
+              "label": "Top center"
+            },
+            {
+              "value": "top-right",
+              "label": "Top right"
+            },
+            {
+              "value": "middle-left",
+              "label": "Center left"
+            },
+            {
+              "value": "middle-center",
+              "label": "Center"
+            },
+            {
+              "value": "middle-right",
+              "label": "Center right"
+            },
+            {
+              "value": "bottom-left",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottom-center",
+              "label": "Bottom center"
+            },
+            {
+              "value": "bottom-right",
+              "label": "Bottom right"
+            }
+          ],
+          "default": "middle-left"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner section",
+      "category": "Banner section",
+      "blocks": [
+        {
+          "type": "single-banner"
+        },
+        {
+          "type": "multi-banner"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

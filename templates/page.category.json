@@ -1,0 +1,359 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "main_title_alignment": "center",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "category_collection_qWPCCf": {
+      "type": "category-collection",
+      "blocks": {
+        "collection_wBt7bp": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category1.jpg",
+            "img-ratio": 100,
+            "title": "Verdant dream",
+            "collection": "demo",
+            "text_color": ""
+          }
+        },
+        "collection_8HxCXP": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category2.jpg",
+            "img-ratio": 100,
+            "title": "The 9-5",
+            "collection": "purse",
+            "text_color": ""
+          }
+        },
+        "collection_tCPGqy": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category3.jpg",
+            "img-ratio": 100,
+            "title": "Blush & bloom",
+            "collection": "all",
+            "text_color": ""
+          }
+        },
+        "collection_WWxEiC": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category4.jpg",
+            "img-ratio": 100,
+            "title": "Royal reverie",
+            "collection": "shop-all",
+            "text_color": ""
+          }
+        },
+        "collection_kCUHGQ": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category2.jpg",
+            "img-ratio": 100,
+            "title": "The 9-5",
+            "collection": "demo",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_wBt7bp",
+        "collection_8HxCXP",
+        "collection_tCPGqy",
+        "collection_WWxEiC",
+        "collection_kCUHGQ"
+      ],
+      "settings": {
+        "full_width": true,
+        "main_subheading": "Best collections",
+        "main_heading": "Category collection",
+        "main_paragraph": "<p>Pair text with an image to focus on your chosen product.</p>",
+        "text_alignment": "left",
+        "collection-desktop": 5,
+        "collection-large-tablet": 3,
+        "collection-tablet": 3,
+        "collection-mobile": 2,
+        "autoplay-enable": false,
+        "arrows": false,
+        "dots": false,
+        "loop": true,
+        "speed": "800",
+        "img_style": "square",
+        "category_style": "bottom",
+        "color_scheme": "",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "category_collection_qQWjtR": {
+      "type": "category-collection",
+      "blocks": {
+        "collection_qHnKA3": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category1.jpg",
+            "img-ratio": 100,
+            "title": "",
+            "collection": "demo",
+            "text_color": ""
+          }
+        },
+        "collection_wqHFNf": {
+          "type": "collection",
+          "settings": {
+            "img-ratio": 100,
+            "title": "",
+            "collection": "frontpage",
+            "text_color": ""
+          }
+        },
+        "collection_iKfyiP": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category2.jpg",
+            "img-ratio": 100,
+            "title": "",
+            "collection": "all",
+            "text_color": ""
+          }
+        },
+        "collection_6fDdFF": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category3.jpg",
+            "img-ratio": 100,
+            "title": "",
+            "collection": "shop-all",
+            "text_color": ""
+          }
+        },
+        "collection_kH4JWL": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category4.jpg",
+            "img-ratio": 100,
+            "title": "",
+            "collection": "purse",
+            "text_color": ""
+          }
+        },
+        "collection_TmafDq": {
+          "type": "collection",
+          "settings": {
+            "img-ratio": 100,
+            "title": "",
+            "collection": "frontpage",
+            "text_color": ""
+          }
+        },
+        "collection_i3UNmp": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category2.jpg",
+            "img-ratio": 100,
+            "title": "",
+            "collection": "all",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_qHnKA3",
+        "collection_wqHFNf",
+        "collection_iKfyiP",
+        "collection_6fDdFF",
+        "collection_kH4JWL",
+        "collection_TmafDq",
+        "collection_i3UNmp"
+      ],
+      "settings": {
+        "full_width": false,
+        "main_subheading": "Best collections",
+        "main_heading": "Category collection",
+        "main_paragraph": "<p>Pair text with an image to focus on your chosen product.</p>",
+        "text_alignment": "center",
+        "collection-desktop": 5.6,
+        "collection-large-tablet": 3,
+        "collection-tablet": 3,
+        "collection-mobile": 2,
+        "autoplay-enable": false,
+        "arrows": true,
+        "dots": false,
+        "loop": true,
+        "speed": "800",
+        "img_style": "round",
+        "category_style": "bottom",
+        "color_scheme": "",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "category_collection_JeeCyW": {
+      "type": "category-collection",
+      "blocks": {
+        "collection_gxjPDh": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category3.jpg",
+            "img-ratio": 100,
+            "title": "collection",
+            "collection": "purse",
+            "text_color": ""
+          }
+        },
+        "collection_kB9qRm": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category2.jpg",
+            "img-ratio": 100,
+            "title": "collection",
+            "collection": "purse",
+            "text_color": ""
+          }
+        },
+        "collection_ePHgw8": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category4.jpg",
+            "img-ratio": 100,
+            "title": "collection",
+            "collection": "purse",
+            "text_color": ""
+          }
+        },
+        "collection_cpzBi8": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category1.jpg",
+            "img-ratio": 100,
+            "title": "collection",
+            "collection": "purse",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_gxjPDh",
+        "collection_kB9qRm",
+        "collection_ePHgw8",
+        "collection_cpzBi8"
+      ],
+      "settings": {
+        "full_width": false,
+        "main_subheading": "Best collections",
+        "main_heading": "Category collection",
+        "main_paragraph": "<p>Pair text with an image to focus on your chosen product.</p>",
+        "text_alignment": "right",
+        "collection-desktop": 4,
+        "collection-large-tablet": 3,
+        "collection-tablet": 3,
+        "collection-mobile": 2,
+        "autoplay-enable": false,
+        "arrows": false,
+        "dots": true,
+        "loop": true,
+        "speed": "800",
+        "img_style": "square",
+        "category_style": "top",
+        "color_scheme": "",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "category_collection_xm4mGz": {
+      "type": "category-collection",
+      "blocks": {
+        "collection_XnDyLB": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category4.jpg",
+            "img-ratio": 100,
+            "title": "collection",
+            "collection": "purse",
+            "text_color": ""
+          }
+        },
+        "collection_H4J4Qq": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category3.jpg",
+            "img-ratio": 100,
+            "title": "collection",
+            "collection": "purse",
+            "text_color": ""
+          }
+        },
+        "collection_gm8KQQ": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category2.jpg",
+            "img-ratio": 100,
+            "title": "collection",
+            "collection": "purse",
+            "text_color": ""
+          }
+        },
+        "collection_arYw9p": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/category1.jpg",
+            "img-ratio": 100,
+            "title": "collection",
+            "collection": "purse",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_XnDyLB",
+        "collection_H4J4Qq",
+        "collection_gm8KQQ",
+        "collection_arYw9p"
+      ],
+      "settings": {
+        "full_width": false,
+        "main_subheading": "Best collections",
+        "main_heading": "Category collection",
+        "main_paragraph": "<p>Pair text with an image to focus on your chosen product.</p>",
+        "text_alignment": "center",
+        "collection-desktop": 4,
+        "collection-large-tablet": 3,
+        "collection-tablet": 3,
+        "collection-mobile": 2,
+        "autoplay-enable": true,
+        "arrows": true,
+        "dots": true,
+        "loop": true,
+        "speed": "800",
+        "img_style": "round",
+        "category_style": "top",
+        "color_scheme": "",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    }
+  },
+  "order": [
+    "main",
+    "category_collection_qWPCCf",
+    "category_collection_qQWjtR",
+    "category_collection_JeeCyW",
+    "category_collection_xm4mGz"
+  ]
+}

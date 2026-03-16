@@ -1,0 +1,8 @@
+{%- if product.handle != blank -%}
+  <button type="button" aria-label="Wishlist" class="" button-wishlist data-product-handle="{{ product.handle }}">
+    {{- 'icon-wishlist.svg' | inline_asset_content -}}
+  </button>
+  <button type="button" aria-label="Compare" class="" button-compare data-product-handle="{{ product.handle }}">
+    {{- 'icon-compare.svg' | inline_asset_content -}}
+  </button>
+{%- endif -%}

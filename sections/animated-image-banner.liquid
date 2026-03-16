@@ -1,0 +1,248 @@
+{% if section.settings.banner_style == 'ukiyo' %}
+  <script src="https://cdn.jsdelivr.net/npm/ukiyojs@4.1.2/dist/ukiyo.min.js"></script>
+{% endif %}
+
+<div class="animated-image-banner section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}" 
+  data-bannerstyle="{{ section.settings.banner_style }}">
+  <div class="{% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}"> 
+    <div class="image-banner-wrapper">
+      <div class="mask">
+        {% if section.settings.mask_image != blank %}
+            {{ section.settings.mask_image | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100 mask-shape' }}
+        {% endif %}
+      </div>
+      <div class="banner-image">
+        {% if section.settings.bg_image == blank %}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+        {% endif %}
+      </div>
+    </div>
+    {% if section.settings.button_label_1 != blank %}
+      <a {% if section.settings.button_link_1 %} href="{{ section.settings.button_link_1 }}" {% else %} role="link" aria-disabled="true" {% endif %} class="button slide-button 
+        {% if section.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}" aria-label="{{ section.settings.button_label_1 }}">
+        {{ section.settings.button_label_1 }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{%- style -%}
+.section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  background-color: transparent;
+}
+@media screen and (max-width: 991px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.67 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.33 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px;
+  }
+}
+.section-{{ section.id }}-padding:has(.page-width)::before{
+  background-color: rgb(var(--color-background));
+}
+{% if section.settings.banner_style == 'ukiyo' %}
+  .section-{{ section.id }}-padding .banner-image{
+    height: {{ section.settings.image_height }}px;
+  }
+{% else %}
+  .section-{{ section.id }}-padding .banner-image,
+  .section-{{ section.id }}-padding .banner-image .placeholder{
+    height: calc({{ section.settings.image_height }}px + 200px);
+  }
+  .image-banner-wrapper {
+    height: {{ section.settings.image_height }}px;
+  }
+{% endif %}
+@media screen and (max-width: 991px){
+  {% if section.settings.banner_style == 'ukiyo' %}
+    .section-{{ section.id }}-padding .banner-image{
+      height: calc({{ section.settings.image_height }}px - 200px);
+    }
+  {% else %}
+    .section-{{ section.id }}-padding .banner-image,
+    .section-{{ section.id }}-padding .banner-image .placeholder{
+      height: calc({{ section.settings.image_height }}px);
+    }
+    .image-banner-wrapper {
+      height: calc({{ section.settings.image_height }}px - 200px);
+    }
+  {% endif %}
+}
+@media screen and (max-width: 767px){
+  {% if section.settings.banner_style == 'ukiyo' %}
+    .section-{{ section.id }}-padding .banner-image{
+      height: calc({{ section.settings.image_height }}px - 300px);
+    }
+  {% else %}
+    .section-{{ section.id }}-padding .banner-image,
+    .section-{{ section.id }}-padding .banner-image .placeholder{
+      height: calc({{ section.settings.image_height }}px);
+    }
+    .image-banner-wrapper {
+      height: calc({{ section.settings.image_height }}px - 300px);
+    }
+  {% endif %}
+}
+
+@media screen and (max-width: 575px){
+  {% if section.settings.banner_style == 'ukiyo' %}
+    .section-{{ section.id }}-padding .banner-image{
+      height: calc({{ section.settings.image_height }}px - 400px);
+    }
+  {% else %}
+    .section-{{ section.id }}-padding .banner-image,
+    .section-{{ section.id }}-padding .banner-image .placeholder{
+      height: calc({{ section.settings.image_height }}px);
+    }
+    .image-banner-wrapper {
+      height: calc({{ section.settings.image_height }}px - 400px);
+    }
+  {% endif %}
+}
+
+@media screen and (max-width: 380px){
+  {% if section.settings.banner_style == 'ukiyo' %}
+    .section-{{ section.id }}-padding .banner-image{
+      height: calc({{ section.settings.image_height }}px - 700px);
+    }
+  {% else %}
+    .section-{{ section.id }}-padding .banner-image,
+    .section-{{ section.id }}-padding .banner-image .placeholder{
+      height: calc({{ section.settings.image_height }}px);
+    }
+    .image-banner-wrapper {
+      height: calc({{ section.settings.image_height }}px - 700px);
+    }
+  {% endif %}
+}
+
+{% if section.settings.bg_image != blank %}
+  .section-{{ section.id }}-padding .banner-image{
+    background-image: url({% if section.settings.bg_image != blank %} {{ section.settings.bg_image | img_url: 'master' }} {% endif %});
+  }
+{% endif %}
+{%- endstyle -%}
+
+{% schema %}
+  {
+    "name": "Animated image banner",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Make section full width",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "banner_style",
+        "label": "Library style",
+        "options": [
+          {
+            "value": "ukiyo",
+            "label": "Ukiyo library"
+          },
+          {
+            "value": "gsap",
+            "label": "Gsap library"
+          }
+        ],
+        "default": "gsap"
+      },
+      {
+        "type": "header",
+        "content": "Mask image setting"
+      },
+      {
+        "type": "image_picker",
+        "id": "mask_image",
+        "label": "Mask image"
+      },
+      {
+        "type": "header",
+        "content": "Background image setting"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_image",
+        "label": "Background image"
+      },
+      {
+        "type": "text",
+        "id": "image_height",
+        "label": "Background image height",
+        "default": "400"
+      },
+      {
+        "type": "header",
+        "content": "Button settings"
+      },
+      {
+        "type": "text",
+        "id": "button_label_1",
+        "default": "t:sections.image-banner.blocks.buttons.settings.button_label_1.default",
+        "label": "t:sections.image-banner.blocks.buttons.settings.button_label_1.label",
+        "info": "t:sections.image-banner.blocks.buttons.settings.button_label_1.info"
+      },
+      {
+        "type": "url",
+        "id": "button_link_1",
+        "label": "t:sections.image-banner.blocks.buttons.settings.button_link_1.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "button_style_secondary_1",
+        "default": false,
+        "label": "t:sections.image-banner.blocks.buttons.settings.button_style_secondary_1.label"
+      },
+      {
+        "type": "header",
+        "content": "Color Settings"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-4"
+      },
+      {
+        "type": "header",
+        "content": "Top bottom padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Animated image banner"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,40 @@
+<div class="wrapper">
+  <div class="image-container">
+    <!-- <img src="https://assets.codepen.io/16327/shoe-range.png" alt="" class="rotate-img"> -->
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/SL-Turnaround.png?v=1741585664" alt="" class="rotate-img">
+  </div>
+</div>
+
+<style>
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image-container {
+  width: 171px;
+  height: 512px;
+  overflow: hidden;
+}
+.rotate-img {
+  width: auto;
+  height: 100%;
+  transform-origin: center;
+}
+</style>
+
+{% schema %}
+  {
+    "name": "3D model",
+    "settings": [
+      
+    ],
+    "presets": [
+      {
+        "name": "3D model"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,93 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{% if settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- unless settings.quick_add == 'none' -%}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+{%- if settings.quick_add == 'standard' -%}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if settings.quick_add == 'bulk' -%}
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+<div class="main-compare-page grid grid--4-col-desktop grid--3-col-large-tab grid--2-col-tab grid--1-col-mobile page-width section-{{ section.id }}-padding" grid-compare></div>
+<div class="compare-empty page-width">
+  <div class="center">
+    <div class="h2">
+      {{ 'sections.collection_template.empty' | t -}}
+    </div>
+  </div>
+</div>
+
+{% style %}
+.compare-card-wrapper li{
+  border: 1px solid rgba(var(--color-foreground), 0.4);
+}
+.section-{{ section.id }}-padding {
+  margin-bottom: 0;
+}
+.compare-page {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+@media screen and (max-width: 991px) {
+  .compare-page {
+    padding-top: {{ section.settings.padding_top | times: 0.67 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .compare-page {
+    padding-top: {{ section.settings.padding_top | times: 0.33 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px;
+  }
+}
+{% endstyle %}
+
+{% schema %}
+  {
+    "templates": ["page"],
+    "name": "Compare",
+    "class": "compare-page collection",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Top bottom padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ]
+  }
+{% endschema %}

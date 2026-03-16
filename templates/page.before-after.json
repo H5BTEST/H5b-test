@@ -1,0 +1,63 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "main_title_alignment": "center",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "before_after_yLKk7Y": {
+      "type": "before-after",
+      "settings": {
+        "full_width": true,
+        "main_subheading": "Collection",
+        "main_heading": "Before After",
+        "main_paragraph": "<p>Pair text with an image to focus on your chosen product.</p>",
+        "main_title_alignment": "center",
+        "animation_style": "scroll",
+        "before_img": "shopify://shop_images/before-img_1.jpg",
+        "after_img": "shopify://shop_images/after-img_1.jpg",
+        "height_ratio": 44,
+        "link": "shopify://products/minauderie-clutch",
+        "color_scheme": "",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "before_after_U9An8B": {
+      "type": "before-after",
+      "settings": {
+        "full_width": false,
+        "main_subheading": "Collection",
+        "main_heading": "Before After",
+        "main_paragraph": "",
+        "main_title_alignment": "left",
+        "animation_style": "drag",
+        "before_img": "shopify://shop_images/before-img_1.jpg",
+        "after_img": "shopify://shop_images/after-img_1.jpg",
+        "height_ratio": 44,
+        "link": "",
+        "color_scheme": "",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    }
+  },
+  "order": [
+    "main",
+    "before_after_yLKk7Y",
+    "before_after_U9An8B"
+  ]
+}

@@ -1,0 +1,353 @@
+<div class="information-section section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient p-relative">
+   {%- if section.settings.image != blank -%}
+    <div class="before-custom-img animate">
+      {{ section.settings.image | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+    </div>
+  {% endif %}
+  <div class="{% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}">
+   {% if section.settings.main_subheading != blank or section.settings.main_heading != blank or section.settings.main_paragraph != blank %}
+      <div class="information_title title-bottom-space {{ section.settings.text_alignment }} animate ad-2 show_up">
+        {% if section.settings.main_subheading != blank %}<div class="main-subheading">{{ section.settings.main_subheading }}</div>{% endif %}
+        {% if section.settings.main_heading != blank %}<div class="main-heading h1">{{ section.settings.main_heading }}</div>{% endif %}
+        {% if section.settings.main_paragraph != blank %}<div class="main-description">{{ section.settings.main_paragraph }}</div>{% endif %}
+      </div>
+    {% endif %}
+    <div class="information-slider swiper-container"
+      data-autoplay="{{ section.settings.autoplay-enable }}"
+      data-speed="{{ section.settings.speed }}" data-loop="{{ section.settings.loop }}" data-desktopspace="{{ settings.spacing_grid_horizontal }}" data-mobilespace="{{ settings.spacing_grid_horizontal | divided_by: 2 }}">
+      <div class="swiper-wrapper">
+        
+        {% for block in section.blocks %}
+          {% if block.type == 'collection' %}
+            {% capture svg_id %}{% cycle 1, 2, 3, 4 %}{% endcapture %}
+            <div class="swiper-slide">
+              <div class="information-content-wrapper">
+                  <div class="information-img animate ad-2">
+                    {%- if block.settings.image != blank -%}
+                      <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.img-ratio  }}%">
+                        {% if svg_id == '1' %}
+                         <svg class="blob-svg" viewBox="0 0 412 408" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <clipPath id="clipBlob{{ svg_id }}">
+                              <path d="M15.82131 174.956C27.9816 109.6187 76.4248 30.1262 157.339 14.65276C280.103 -8.8278 361.216 138.331 364.735 144.886C378.169 169.951 406.187 222.197 387.659 274.243C363.235 342.854 274.688 364.057 219.962 377.159C170.085 389.103 133.736 397.803 96.3398 380.318C28.3779 348.546 1.8119 251.256 15.83074 175.956H15.82131Z"/>
+                            </clipPath>
+                          </defs>
+                        
+                          <image 
+                            width="100%" 
+                            height="100%" 
+                            href="{{ block.settings.image | img_url: 'master' }}" 
+                            clip-path="url(#clipBlob{{ svg_id }})" 
+                            preserveAspectRatio="xMidYMid slice"
+                          />
+                        
+                          <path d="M15.82131 174.956C27.9816 109.6187 76.4248 30.1262 157.339 14.65276C280.103 -8.8278 361.216 138.331 364.735 144.886C378.169 169.951 406.187 222.197 387.659 274.243C363.235 342.854 274.688 364.057 219.962 377.159C170.085 389.103 133.736 397.803 96.3398 380.318C28.3779 348.546 1.8119 251.256 15.83074 175.956H15.82131Z"
+                            stroke="rgb(var(--color-background))" stroke-width="15" fill="none"/>
+                        </svg>
+
+                        {% elsif svg_id == '2' %}
+                          <svg class="blob-svg" viewBox="-15 -15 399 434" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <clipPath id="clipBlob{{ svg_id }}">
+                                <path d="M364.764 203.042C343.782 311.957 287.578 403.735 192.37 403.735C97.1615 403.735 68.7413 302.886 19.9755 203.042C-54.94 49.6458 98.257 -11.7473 192.378 2.35766C293.081 17.4503 386.929 88.0013 364.772 203.051L364.764 203.042Z"/>
+                              </clipPath>
+                            </defs>
+                          
+                            <image 
+                              width="100%" 
+                              height="100%" 
+                              href="{{ block.settings.image | img_url: 'master' }}" 
+                              clip-path="url(#clipBlob{{ svg_id }})" 
+                              preserveAspectRatio="xMidYMid slice"
+                            />
+                          
+                            <path d="M364.764 203.042C343.782 311.957 287.578 403.735 192.37 403.735C97.1615 403.735 68.7413 302.886 19.9755 203.042C-54.94 49.6458 98.257 -11.7473 192.378 2.35766C293.081 17.4503 386.929 88.0013 364.772 203.051L364.764 203.042Z"
+                              stroke="rgb(var(--color-background))" stroke-width="15" fill="none"/>
+                          </svg>
+
+                        {% elsif svg_id == '3' %}
+                          <svg class="blob-svg" viewBox="-15 -15 435 428" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <clipPath id="clipBlob{{ svg_id }}">
+                                <path d="M400.663 225.831C387.773 294.701 336.423 378.491 250.653 394.801C120.523 419.551 34.5428 265.491 30.8128 258.581C16.5728 232.161 -13.1272 177.091 6.51278 122.231C32.4028 49.9114 126.263 27.5614 184.273 13.7514C237.143 1.16143 275.673 -8.00857 315.313 10.4214C387.353 43.9114 415.513 146.461 400.653 225.831H400.663Z"/>
+                              </clipPath>
+                            </defs>
+                          
+                            <image 
+                              width="100%" 
+                              height="100%" 
+                              href="{{ block.settings.image | img_url: 'master' }}" 
+                              clip-path="url(#clipBlob{{ svg_id }})" 
+                              preserveAspectRatio="xMidYMid slice"
+                            />
+                          
+                            <path d="M400.663 225.831C387.773 294.701 336.423 378.491 250.653 394.801C120.523 419.551 34.5428 265.491 30.8128 258.581C16.5728 232.161 -13.1272 177.091 6.51278 122.231C32.4028 49.9114 126.263 27.5614 184.273 13.7514C237.143 1.16143 275.673 -8.00857 315.313 10.4214C387.353 43.9114 415.513 146.461 400.653 225.831H400.663Z"
+                              stroke="rgb(var(--color-background))" stroke-width="15" fill="none"/>
+                          </svg>
+                        {% else %}
+                          <svg class="blob-svg" viewBox="-15 -15 441 425" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <clipPath id="clipBlob{{ svg_id }}">
+                                <path d="M410.5 172.283C410.5 285.666 321.774 424.689 205.5 377.571C100.548 335.043 0.5 285.657 0.5 172.283C0.5 58.9082 74.872 57.7743 183.586 11.4151C287.761 -33.0148 410.5 58.899 410.5 172.283Z"/>
+                              </clipPath>
+                            </defs>
+                          
+                            <image 
+                              width="100%" 
+                              height="100%" 
+                              href="{{ block.settings.image | img_url: 'master' }}" 
+                              clip-path="url(#clipBlob{{ svg_id }})" 
+                              preserveAspectRatio="xMidYMid slice"
+                            />
+                          
+                            <path d="M410.5 172.283C410.5 285.666 321.774 424.689 205.5 377.571C100.548 335.043 0.5 285.657 0.5 172.283C0.5 58.9082 74.872 57.7743 183.586 11.4151C287.761 -33.0148 410.5 58.899 410.5 172.283Z"
+                              stroke="rgb(var(--color-background))" stroke-width="15" fill="none"/>
+                          </svg>
+
+                        {% endif %}
+                      </div>
+                    {%- else -%}
+                      <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.img-ratio }}%">
+                        {%- capture current -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+                        {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                  <div class="information-wrapper animate ad-2 show_up">
+                    {% if block.settings.subtitle != blank %}<div class="main-subheading">{{ block.settings.subtitle }}</div>{% endif %}
+                    {% if block.settings.title != blank %}<div class="h3">{{ block.settings.title }}</div>{% endif %}
+                    {% if block.settings.content != blank %}<div class="main-description">{{ block.settings.content }}</div>{% endif %}
+                  </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if section.settings.arrows %}
+      <div class="swiper-buttons">
+        <div class="content-buttons">
+          <div class="swiper-button-next info-swiper-button-next"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+          <div class="swiper-button-prev info-swiper-button-prev"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+        </div>
+      </div>
+      {% endif %}
+      {% if section.settings.dots -%}
+        <div class="swiper-pagination info-swiper-pagination" id="swiper-pagination-{{section.id}}"></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Information section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Title setting"
+    },
+    {
+      "type": "text",
+      "id": "main_subheading",
+      "label": "Subheading",
+      "default": "THE CONCEPT"
+    },
+    {
+      "type": "textarea",
+      "id": "main_heading",
+      "label": "Heading",
+      "default": "Lorem ipsum dolor sit amet consectetur."
+    },
+    {
+      "type": "richtext",
+      "id": "main_paragraph",
+      "label": "Content",
+      "default": "<p>Pair text with an image to focus on your chosen product.</p>"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Main title alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay-enable",
+      "label": "Autoplay enable",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Enable navigation arrows",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "dots",
+      "label": "Enable pagination dots",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "speed",
+      "label": "Slide speed",
+      "default": "800"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Enable loop",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Custom image settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Top bottom padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "img-ratio",
+          "min": 12,
+          "max": 150,
+          "step": 2,
+          "unit": "px",
+          "label": "Image height ratio",
+          "default": 92
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subheading",
+          "default": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Schedule a one-on-one consultation with our Wellness Director to kickstart your journey.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Information section",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

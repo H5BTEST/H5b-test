@@ -1,0 +1,229 @@
+<input type="checkbox" id="toggle" />
+<div class="layer" id="layer1">
+  <div class="text-title">Orange</div>
+
+  <div class="can-container">
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/can_2.png?v=1741267824" alt="" class="can-img" />
+
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/Contents.png?v=1741267824" alt="" class="can-wrapper" />
+  </div>
+
+  <div class="fruits">
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/orange-3.png?v=1741267824" alt="" />
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/orange-2.png?v=1741267825" alt="" />
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/orange-1.png?v=1741267825" alt="" />
+  </div>
+
+  <label for="toggle">Click to Slide</label>
+</div>
+<div class="layer" id="layer2">
+  <div class="text-title">Pineapple</div>
+
+  <div class="can-container">
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/can_2.png?v=1741267824" alt="" class="can-img" />
+
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/Contents-2.png?v=1741267824" alt="" class="can-wrapper" />
+  </div>
+
+  <div class="fruits">
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/pineapple-3.png?v=1741267824" alt="" />
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/pineapple-2.png?v=1741267824" alt="" />
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/pineapple-1.png?v=1741267824" alt="" />
+  </div>
+
+  <label for="toggle">Click to Slide</label>
+</div>
+
+<style>
+.animation-style2{
+  position: relative;
+  overflow: hidden;
+}
+.layer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: 1.2s cubic-bezier(0.71, 0, 0.38, 1);
+}
+#layer1 {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  background: rgb(255, 239, 219);
+  z-index: 2;
+  position: relative;
+}
+.can-container {
+  width: 200px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 75px;
+}
+.can-img {
+  width: 100%;
+}
+.can-wrapper {
+  position: absolute;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -53%);
+  mix-blend-mode: multiply;
+  transition: 1.2s cubic-bezier(0.71, 0, 0.38, 1);
+}
+.text-title {
+  font-size: 175px;
+  font-weight: 500;
+  color: rgb(255, 213, 159);
+  position: absolute;
+  transition: 1.2s cubic-bezier(0.71, 0, 0.38, 1);
+}
+.fruits {
+  position: absolute;
+  transition: cubic-bezier(0.71, 0, 0.38, 1) 1.2s;
+}
+.fruits img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: cubic-bezier(0.71, 0, 0.38, 1) 1.2s;
+}
+#layer1 .fruits img:nth-child(1) {
+  width: 125px;
+  translate: -225px -150px;
+}
+#layer1 .fruits img:nth-child(2) {
+  width: 180px;
+  translate: 275px -50px;
+}
+#layer1 .fruits img:nth-child(3) {
+  width: 250px;
+  translate: -175px 115px;
+}
+#layer2 {
+  background: rgb(229, 254, 193);
+  z-index: 1;
+}
+#layer2 .text-title {
+  color: rgb(181, 235, 115);
+}
+#layer2 .fruits img:nth-child(1) {
+  width: 75px;
+  translate: 180px 90px;
+}
+#layer2 .fruits img:nth-child(2) {
+  width: 275px;
+  translate: 225px -125px;
+}
+#layer2 .fruits img:nth-child(3) {
+  width: 200px;
+  translate: -200px 50px;
+}
+#toggle {
+  display: none;
+}
+.layer label {
+  display: block;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 0.5mm solid black;
+  border-radius: 10mm;
+  cursor: pointer;
+  margin-top: 75px;
+}
+#toggle:checked ~ #layer1 .can-container .can-wrapper {
+  left: -50%;
+}
+#toggle:checked ~ #layer1 .text-title {
+  translate: 150% 0;
+}
+#toggle:checked ~ #layer1 .fruits {
+  translate: 125vw 0;
+}
+#toggle:checked ~ #layer1 .fruits img {
+  translate: -100% 0;
+}
+#toggle:not(:checked) ~ #layer2 .can-container .can-wrapper {
+  left: 150%;
+}
+#toggle:not(:checked) ~ #layer2 .text-title {
+  translate: -150% 0;
+}
+#toggle:not(:checked) ~ #layer2 .fruits {
+  translate: -125vw 0;
+}
+#toggle:not(:checked) ~ #layer2 .fruits img {
+  translate: -100% 0;
+}
+#layer1 {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+#toggle:checked ~ #layer1 {
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const checkbox = document.getElementById("toggle");
+  const animatedElement = document.querySelector(".animation-style2");
+
+  let lastScrollY = window.scrollY;
+  let isVisible = false; // Track whether the element is visible
+
+  // Function to detect scroll direction
+  function handleScroll() {
+    if (!isVisible) return; // Only trigger if element is visible in viewport
+
+    let currentScrollY = window.scrollY;
+
+    if (currentScrollY > lastScrollY) {
+      checkbox.checked = true; // Scrolling Down (Show Layer 2)
+    } else {
+      checkbox.checked = false; // Scrolling Up (Show Layer 1)
+    }
+
+    lastScrollY = currentScrollY;
+  }
+
+  // Intersection Observer to detect when `.animation-style2` is 20% visible
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        isVisible = entry.intersectionRatio > 0.2; // Update visibility status
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  if (animatedElement) {
+    observer.observe(animatedElement);
+  }
+
+  // Scroll event listener
+  window.addEventListener("scroll", handleScroll);
+});
+
+
+</script>
+
+{% schema %}
+  {
+    "name": "3D animation style 2",
+    "class": "animation-style2",
+    "settings": [
+      
+    ],
+    "presets": [
+      {
+        "name": "3D animation style 2"
+      }
+    ]
+  }
+{% endschema %}

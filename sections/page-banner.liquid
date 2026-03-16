@@ -1,0 +1,176 @@
+<div class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient page-banner-section {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}">
+  <div class="{% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}">
+     <a href="{{ section.settings.button_link }}" role="link">
+      <div class="page-banner-wrapper">
+        {% if section.settings.banner-image != blank %}
+          <div class="media media--transparent ratio" style="--ratio-percent: {{ section.settings.height_ratio }}%">
+            {{ section.settings.banner-image | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+          </div>
+        {% else %}
+          <div class="media media--transparent ratio" style="--ratio-percent: {{ section.settings.height_ratio }}%">
+            {{ 'collection-6' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+          </div>
+        {% endif %}
+        <div class="page-banner-text page-banner-block--{{ section.settings.block_alignment }} {{ section.settings.text_alignment }}">
+          {% if section.settings.banner-subheading != blank %}
+            <div class="sec_subheading">{{ section.settings.banner-subheading }}</div>
+          {% endif %}
+          {% if template contains 'page' %}
+            <div class="sec_heading h2">{{ page.title }}</div>
+            {% elsif template contains 'collection' %}
+              <div class="sec_heading h2">{{ collection.title }}</div>
+            {% elsif template == 'blog' %}
+              <div class="sec_heading h2">{{ blog.title }}</div>
+            {% elsif template == 'article' %}
+              <div class="sec_heading h2">{{ article.title }}</div>
+            {% elsif section.settings.banner-heading != blank %}
+            <div class="sec_heading h2">{{ section.settings.banner-heading }}</div>
+          {% endif %}
+        </div>
+      </div>
+     </a>
+  </div>
+</div>
+
+{% style %}
+.section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+@media screen and (max-width: 991px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.67 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.33 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px;
+  }
+}
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Page banner",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Make section full width",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Banner setting"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner-image",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "height_ratio",
+        "min": 10,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Image height ratio",
+        "default": 30
+      },
+      {
+        "type": "text",
+        "id": "banner-subheading",
+        "label": "Subheading",
+        "default": "Banner trend"
+      },
+      {
+        "type": "textarea",
+        "id": "banner-heading",
+        "label": "Heading",
+        "default": "Announce your offer"
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center",
+        "label": "Text alignment"
+      },
+      {
+        "type": "select",
+        "id": "block_alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center",
+        "label": "Block alignment"
+      },
+      {
+        "type": "header",
+        "content": "Color settings"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-4"
+      },
+      {
+        "type": "header",
+        "content": "Top bottom padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Page banner"
+      }
+    ]
+  }
+{% endschema %}

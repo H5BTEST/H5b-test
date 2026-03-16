@@ -1,0 +1,122 @@
+<div class="stage section-{{ section.id }}-padding">
+  <div class="containerr media media--transparent ratio" style="--ratio-percent: 150%">
+    <div class="ring">
+      {% for block in section.blocks %}
+          <div class="img media media--transparent ratio">
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100 slider-img' }}
+            {% else %}
+              {%- capture current -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+              {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder placeholder-bg' }}
+            {% endif %}
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% style %}
+.section-{{ section.id }}-padding {
+  background-color: {{ section.settings.section_bg }};
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+@media screen and (max-width: 991px) {
+  .section-{{ section.id }}-padding {
+    padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+    padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+  }
+}
+@media screen and (max-width: 767px) {
+  .section-{{ section.id }}-padding {
+    padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+    padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+  }
+}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Curve slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Top bottom padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Curve slider",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

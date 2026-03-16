@@ -1,0 +1,106 @@
+<div class="counterup-section">
+  <div class="{% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}">
+   <div class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient counterup-row">
+      <ul id="counter" class="list-unstyled">
+      {%- for block in section.blocks -%}
+        <li class="center {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %}">
+          <div class="count h2" data-count="{{ block.settings.count }}"> 0 </div>
+          <p class="heading">{{ block.settings.heading }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+   </div>
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Counterup section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Make section full width",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Color settings"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "Top bottom padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "count",
+        "name": "Count",
+        "settings": [
+           {
+            "type": "text",
+            "id": "count",
+            "default": "1300",
+            "label": "Count text"
+          },
+          {
+            "type": "textarea",
+            "id": "heading",
+            "default": "Heading",
+            "label": "Heading"
+          },
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Counterup section"
+      }
+    ]
+  }
+{% endschema %}

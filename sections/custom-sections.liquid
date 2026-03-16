@@ -1,0 +1,71 @@
+<!-- Sticky Bottle Section -->
+<section class="sticky-bottle">
+  <div class="new-bottle-wrap">
+    <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/bottle.png?v=1757680568" alt="Bottle" class="bottle" />
+    <video src="https://cdn.shopify.com/videos/c/o/v/48e0842b042240bba99b80c13d0b341b.mp4" class="video" muted playsinline></video>
+  </div>
+</section>
+
+<!-- Content After -->
+<section class="after-content">
+  <h2>Next Section</h2>
+  <p>Some more content here...</p>
+</section>
+
+
+<style>
+    /* CSS */
+/* Sticky Bottle */
+.sticky-bottle {
+  position: relative;
+  {% comment %} height: 300vh; {% endcomment %}
+}
+.bottle.active{
+    right: 0;
+    left: auto;
+}
+.bottle {
+     position: fixed;
+     top: 0;
+    left: 50%;
+    {% comment %} top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); {% endcomment %}
+    z-index: 50;
+    {% comment %} width: 100vw; {% endcomment %}
+}
+.bottle {
+  {% comment %} max-height: 80vh; {% endcomment %}
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+.video {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 50;
+  transform: translate(-50%, 0px);
+  max-width: 80vw;
+  {% comment %} max-height: 80vh; {% endcomment %}
+   {% comment %} top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); {% endcomment %}
+    opacity: 0;
+    z-index: 50;
+  transition: opacity 0.5s ease;
+}
+
+</style>
+
+
+{% schema %}
+  {
+    "name": "CUSTOM",
+    "settings": [],
+    "presets": [
+      {
+        "name": "CUSTOM"
+      }
+    ]
+  }
+{% endschema %}

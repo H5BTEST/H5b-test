@@ -1,0 +1,702 @@
+<section id="meal-plan-builder-final" class="mpb-final wrapper">
+  <div class="mpb-final-inner">
+    <header class="mpb-final-header">
+      <h2 class="mpb-final-title">{{ section.settings.heading }}</h2>
+      <p class="mpb-final-sub">{{ section.settings.subheading }}</p>
+    </header>
+
+    <div class="mpb-final-progress">
+      <div class="mpb-final-progress-fill" id="mpb-final-progress-fill" style="width:0%; display: block;"></div>
+    </div>
+
+    <ul class="mpb-final-indicators" aria-hidden="true">
+      {% assign steps = 'Diet Type,Frequency,Meal Plan,Duration,Select Days,Start Date,Meal Favorites,Beverages,Review'
+        | split: ','
+      %}
+      {% for step in steps %}
+        <li class="mpb-final-dot{% if forloop.first %} active{% endif %}" data-step="{{ forloop.index }}">
+          {{ forloop.index }}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <div class="mpb-final-wizard" id="mpb-final-wizard">
+      <!-- 1 Diet Type -->
+      <div class="mpb-final-panel active" data-step="1">
+        <h3>Diet Type</h3>
+        <select id="mpb-diet-type" class="mpb-input" aria-label="Diet Type">
+          <option value="">Choose your diet type</option>
+          <option value="Standard">Standard</option>
+          <option value="Vegetarian">Vegetarian</option>
+          <option value="Keto">Keto</option>
+          <option value="Vegan">Vegan</option>
+        </select>
+      </div>
+
+      <!-- 2 Frequency -->
+      <div class="mpb-final-panel" data-step="2">
+        <h3>Frequency</h3>
+        <div class="mpb-final-radio" id="mpb-frequency-grid" aria-label="Frequency">
+          <label class="mpb-radio"><input type="radio" name="mpb-frequency" value="1"> 1 meal per day</label>
+          <label class="mpb-radio"><input type="radio" name="mpb-frequency" value="2"> 2 meals per day</label>
+          <label class="mpb-radio"><input type="radio" name="mpb-frequency" value="3"> 3 meals per day</label>
+          <label class="mpb-radio"><input type="radio" name="mpb-frequency" value="4"> 4 meals per day</label>
+        </div>
+      </div>
+
+      <!-- 3 Meal Plan -->
+      <div class="mpb-final-panel" data-step="3">
+        <h3>Meal Plan</h3>
+        <select id="mpb-plan" class="mpb-input" aria-label="Meal Plan">
+          <option value="">Choose meal plan</option>
+          <option value="Weight Loss">Weight Loss</option>
+          <option value="Muscle Gain">Muscle Gain</option>
+          <option value="Balanced">Balanced</option>
+          <option value="Custom">Custom</option>
+        </select>
+      </div>
+
+      <!-- 4 Duration -->
+      <div class="mpb-final-panel" data-step="4">
+        <h3>Duration</h3>
+        <select id="mpb-duration" class="mpb-input" aria-label="Duration">
+          <option value="">Choose duration</option>
+          <option value="1 Week">1 Week</option>
+          <option value="2 Weeks">2 Weeks</option>
+          <option value="4 Weeks">4 Weeks</option>
+        </select>
+      </div>
+
+      <!-- 5 Select Days -->
+      <div class="mpb-final-panel" data-step="5">
+        <h3>Select Days</h3>
+        <p class="mpb-note">Pick the days you want delivery. You can select up to the number chosen in Frequency.</p>
+        <div class="mpb-final-days" id="mpb-days-list" aria-label="Select Days">
+          {% assign days = 'Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday' | split: ',' %}
+          {% for day in days %}
+            <label class="mpb-final-day"><input type="checkbox" class="mpb-day" value="{{ day }}"> {{ day }}</label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- 6 Start Date -->
+      <div class="mpb-final-panel" data-step="6">
+        <h3>Start Date</h3>
+        <input type="date" id="mpb-start-date" class="mpb-input" aria-label="Start Date">
+      </div>
+
+      <!-- 7 Meal Favorites (multiple) -->
+      <div class="mpb-final-panel" data-step="7">
+        <h3>Meal Favorites</h3>
+        <p class="mpb-note">Select your favorite meals (you can pick multiple).</p>
+        <div class="mpb-final-products">
+          {% for i in (1..12) %}
+            {% assign product_key = 'meal_product_' | append: i %}
+            {% assign handle = section.settings[product_key] %}
+            {% if handle %}
+              {% assign prod = all_products[handle] %}
+              {% if prod %}
+                {% assign v = prod.variants.first %}
+                <label class="mpb-final-product">
+                  <input type="checkbox" class="mpb-favorite" value="{{ v.id }}">
+                  <span class="prod-title">{{ prod.title }}</span>
+                </label>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- 8 Beverages (multiple) -->
+      <div class="mpb-final-panel" data-step="8">
+        <h3>Beverages</h3>
+        <p class="mpb-note">Choose beverages (optional).</p>
+        <div class="mpb-final-products">
+          {% for i in (1..8) %}
+            {% assign bev_key = 'bev_product_' | append: i %}
+            {% assign handle = section.settings[bev_key] %}
+            {% if handle %}
+              {% assign bev = all_products[handle] %}
+              {% if bev %}
+                {% assign vb = bev.variants.first %}
+                <label class="mpb-final-product">
+                  <input type="checkbox" class="mpb-beverage" value="{{ vb.id }}">
+                  <span class="prod-title">{{ bev.title }}</span>
+                </label>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- 9 Review & Add to Cart -->
+      <div class="mpb-final-panel" data-step="9">
+        <h3>Review & Add to Cart</h3>
+        <div id="mpb-final-review"></div>
+      </div>
+    </div>
+
+    <div class="mpb-final-nav">
+      <button id="mpb-final-prev" class="mpb-btn" aria-label="Previous">Previous</button>
+      <div class="mpb-final-controls">
+        <div id="mpb-final-count">1 / 9</div>
+        <button id="mpb-final-next" class="mpb-btn mpb-btn-primary" aria-label="Next" disabled>Next</button>
+        <button id="mpb-final-add" class="mpb-btn mpb-btn-primary" style="display:none;" aria-label="Add to Cart">
+          {{ section.settings.confirm_text }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  (function () {
+    document.addEventListener('DOMContentLoaded', function () {
+      const TOTAL = 9;
+      let step = 1;
+
+      const panels = document.querySelectorAll('.mpb-final-panel');
+      const dots = document.querySelectorAll('.mpb-final-dot');
+      const progressFill = document.getElementById('mpb-final-progress-fill');
+      const countEl = document.getElementById('mpb-final-count');
+      const prevBtn = document.getElementById('mpb-final-prev');
+      const nextBtn = document.getElementById('mpb-final-next');
+      const addBtn = document.getElementById('mpb-final-add');
+      const reviewBox = document.getElementById('mpb-final-review');
+
+      // helper: update UI for step n
+      function showStep(n) {
+        step = n;
+        panels.forEach((p) => p.classList.remove('active'));
+        const active = document.querySelector('.mpb-final-panel[data-step="' + n + '"]');
+        if (active) active.classList.add('active');
+        dots.forEach((d) => d.classList.toggle('active', Number(d.dataset.step) === n));
+        const pct = Math.round(((n - 1) / (TOTAL - 1)) * 100);
+        if (progressFill) progressFill.style.width = pct + '%';
+        countEl.textContent = n + ' / ' + TOTAL;
+        prevBtn.style.display = n === 1 ? 'none' : 'inline-block';
+        nextBtn.style.display = n === TOTAL ? 'none' : 'inline-block';
+        addBtn.style.display = n === TOTAL ? 'inline-block' : 'none';
+        // on showing step evaluate Next enabled state
+        evaluateNextEnabled(n);
+        if (n === TOTAL) renderReview();
+        const first = active && active.querySelector('select, input, textarea, [type="radio"]');
+        if (first) first.focus();
+      }
+
+      // Validate required fields per step before allowing next
+      function isStepValid(n) {
+        if (n === 1) {
+          return !!(document.getElementById('mpb-diet-type') && document.getElementById('mpb-diet-type').value);
+        }
+        if (n === 2) {
+          return !!document.querySelector('input[name="mpb-frequency"]:checked');
+        }
+        if (n === 3) {
+          return !!(document.getElementById('mpb-plan') && document.getElementById('mpb-plan').value);
+        }
+        if (n === 4) {
+          return !!(document.getElementById('mpb-duration') && document.getElementById('mpb-duration').value);
+        }
+        if (n === 5) {
+          const freqEl = document.querySelector('input[name="mpb-frequency"]:checked');
+          const freqNum = freqEl ? Number(freqEl.value) : 0;
+          const selectedDays = document.querySelectorAll('.mpb-day:checked').length;
+          if (freqNum === 0) return false;
+          return selectedDays === freqNum;
+        }
+        if (n === 6) {
+          return !!(document.getElementById('mpb-start-date') && document.getElementById('mpb-start-date').value);
+        }
+        // steps 7 & 8 optional — allow next by default
+        if (n === 7) {
+          const favCount = document.querySelectorAll('.mpb-favorite:checked').length;
+          return favCount >= 1;
+        }
+
+        // ✅ Step 8: Require at least 1 Beverage
+        if (n === 8) {
+          const bevCount = document.querySelectorAll('.mpb-beverage:checked').length;
+          return bevCount >= 1;
+        }
+        return true;
+      }
+
+      function evaluateNextEnabled(n) {
+        const valid = isStepValid(n);
+        nextBtn.disabled = !valid;
+        if (valid) {
+          nextBtn.classList.add('enabled');
+        } else {
+          nextBtn.classList.remove('enabled');
+        }
+      }
+
+      // Next / Prev handlers
+      function next() {
+        if (!isStepValid(step)) {
+          // show inline message like Replit
+          // keep consistent with Replit: show small alert
+          alert('Please complete this step to continue');
+          evaluateNextEnabled(step);
+          return;
+        }
+        if (step < TOTAL) showStep(step + 1);
+      }
+      function prev() {
+        if (step > 1) showStep(step - 1);
+      }
+
+      // Frequency -> limit logic for Select Days
+      function getFrequencyNumber() {
+        const freqEl = document.querySelector('input[name="mpb-frequency"]:checked');
+        if (!freqEl) return null;
+        const v = Number(freqEl.value);
+        return isNaN(v) ? null : v;
+      }
+
+      function enforceDayLimit() {
+        const max = getFrequencyNumber();
+        const dayBoxes = Array.from(document.querySelectorAll('.mpb-day'));
+        if (!max) {
+          dayBoxes.forEach((cb) => (cb.disabled = false));
+          return;
+        }
+        // if checked > max, uncheck extras (keep first N)
+        const checked = dayBoxes.filter((cb) => cb.checked);
+        if (checked.length > max) {
+          // uncheck from last until length == max
+          for (let i = checked.length - 1; i >= max; i--) {
+            checked[i].checked = false;
+          }
+        }
+        const checkedCount = dayBoxes.filter((cb) => cb.checked).length;
+        dayBoxes.forEach((cb) => {
+          if (checkedCount >= max && !cb.checked) cb.disabled = true;
+          else cb.disabled = false;
+        });
+        // also update next button enabled for step 5
+        if (step === 5) evaluateNextEnabled(5);
+      }
+
+      // collect all inputs for review and add to cart
+      function collect() {
+        const diet = document.getElementById('mpb-diet-type') ? document.getElementById('mpb-diet-type').value : '';
+        const freqEl = document.querySelector('input[name="mpb-frequency"]:checked');
+        const freq = freqEl ? freqEl.value : '';
+        const plan = document.getElementById('mpb-plan') ? document.getElementById('mpb-plan').value : '';
+        const duration = document.getElementById('mpb-duration') ? document.getElementById('mpb-duration').value : '';
+        const days = Array.from(document.querySelectorAll('.mpb-day:checked')).map((d) => d.value);
+        const start = document.getElementById('mpb-start-date')
+          ? document.getElementById('mpb-start-date').value
+          : '';
+        const favIds = Array.from(document.querySelectorAll('.mpb-favorite:checked')).map((i) => Number(i.value));
+        const bevIds = Array.from(document.querySelectorAll('.mpb-beverage:checked')).map((i) => Number(i.value));
+        return { diet, freq, plan, duration, days, start, favIds, bevIds };
+      }
+
+      // Render Review similar to Replit, with Edit buttons
+      function renderReview() {
+        const d = collect();
+        reviewBox.innerHTML = '';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'mpb-final-review-wrapper';
+
+        function row(label, value, editStep) {
+          const r = document.createElement('div');
+          r.className = 'mpb-review-row';
+          const left = document.createElement('div');
+          left.className = 'mpb-review-label';
+          left.textContent = label;
+          const right = document.createElement('div');
+          right.className = 'mpb-review-value';
+          right.textContent = Array.isArray(value) ? (value.length ? value.join(', ') : '—') : value || '—';
+          r.appendChild(left);
+          r.appendChild(right);
+          if (editStep) {
+            const edit = document.createElement('button');
+            edit.className = 'mpb-review-edit';
+            edit.type = 'button';
+            edit.textContent = 'Edit';
+            edit.addEventListener('click', function () {
+              showStep(editStep);
+            });
+            r.appendChild(edit);
+          }
+          return r;
+        }
+
+        wrapper.appendChild(row('Diet Type', d.diet, 1));
+        wrapper.appendChild(row('Frequency', d.freq, 2));
+        wrapper.appendChild(row('Meal Plan', d.plan, 3));
+        wrapper.appendChild(row('Duration', d.duration, 4));
+        wrapper.appendChild(row('Days', d.days, 5));
+        wrapper.appendChild(row('Start Date', d.start, 6));
+
+        const favTitles = Array.from(document.querySelectorAll('.mpb-favorite:checked')).map((n) =>
+          n.parentNode.querySelector('.prod-title').textContent.trim()
+        );
+        wrapper.appendChild(row('Favorites', favTitles, 7));
+
+        const bevTitles = Array.from(document.querySelectorAll('.mpb-beverage:checked')).map((n) =>
+          n.parentNode.querySelector('.prod-title').textContent.trim()
+        );
+        wrapper.appendChild(row('Beverages', bevTitles, 8));
+
+        reviewBox.appendChild(wrapper);
+      }
+
+      function planProperties(data) {
+        return {
+          'Diet Type': data.diet || '',
+          Frequency: data.freq || '',
+          'Meal Plan': data.plan || '',
+          Duration: data.duration || '',
+          Days: (data.days || []).join(', '),
+          'Start Date': data.start || '',
+          'Created At': new Date().toISOString(),
+        };
+      }
+
+      // try to open drawer
+      function tryOpenCartDrawer() {
+        const selectors = [
+          '[data-drawer-toggle]',
+          '[data-open-cart]',
+          '.cart-drawer-toggle',
+          '.js-drawer-open',
+          '.header__icon--cart',
+          '.icon--cart',
+          '.cart-toggle',
+          '[data-cart-toggle]',
+          '.cart-link',
+        ];
+        for (const sel of selectors) {
+          const el = document.querySelector(sel);
+          if (el) {
+            el.click();
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function addToCart() {
+        const d = collect();
+
+        // Make sure all required steps are valid
+        if (!isStepValid(9)) {
+          alert('Please complete all steps before adding to cart.');
+          return;
+        }
+
+        // Collect all selected items
+        const items = [];
+        const props = {
+          'Diet Type': d.diet,
+          Frequency: d.freq,
+          'Meal Plan': d.plan,
+          Duration: d.duration,
+          Days: d.days.join(', '),
+          'Start Date': d.start,
+        };
+
+        d.favIds.forEach((id) => items.push({ id, quantity: 1, properties: props }));
+        d.bevIds.forEach((id) => items.push({ id, quantity: 1, properties: props }));
+
+        if (items.length === 0) {
+          alert('Please select at least one meal or beverage.');
+          return;
+        }
+
+        // POST items to Shopify cart
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ items }),
+        })
+          .then((res) => {
+            if (!res.ok) throw res;
+            return res.json();
+          })
+          .then((data) => {
+            console.log('Added to cart:', data);
+
+            // ✅ Force-refresh the cart drawer content
+            fetch('/cart.js')
+              .then((r) => r.json())
+              .then((cart) => {
+                // Dispatch Dawn’s built-in event to refresh drawer content
+                document.documentElement.dispatchEvent(
+                  new CustomEvent('cart:refresh', {
+                    bubbles: true,
+                    detail: { cart },
+                  })
+                );
+
+                // Open the cart drawer immediately
+                if (window.cartDrawer && typeof window.cartDrawer.open === 'function') {
+                  window.cartDrawer.open();
+                } else {
+                  const drawerToggle = document.querySelector(
+                    '[data-cart-toggle], [data-drawer-toggle], .cart-drawer-toggle, .header__icon--cart'
+                  );
+                  if (drawerToggle) drawerToggle.click();
+                  else window.location.href = '/cart';
+                }
+              });
+          })
+          .catch((err) => {
+            console.error('Add to cart failed:', err);
+            alert('Something went wrong. Please try again.');
+          });
+      }
+
+      // Event listeners for inputs to enable/disable Next
+      function attachInputListeners() {
+        // Step 1 diet select
+        const diet = document.getElementById('mpb-diet-type');
+        diet &&
+          diet.addEventListener('change', function () {
+            evaluateNextEnabled(1);
+          });
+
+        // Step 2 frequency radios
+        const freqRadios = Array.from(document.querySelectorAll('input[name="mpb-frequency"]'));
+        freqRadios.forEach((r) =>
+          r.addEventListener('change', function () {
+            evaluateNextEnabled(2);
+            // when frequency changes, enforce day limit immediately
+            enforceDayLimit();
+          })
+        );
+
+        // Step 3 plan select
+        const plan = document.getElementById('mpb-plan');
+        plan &&
+          plan.addEventListener('change', function () {
+            evaluateNextEnabled(3);
+          });
+
+        // Step 4 duration
+        const dur = document.getElementById('mpb-duration');
+        dur &&
+          dur.addEventListener('change', function () {
+            evaluateNextEnabled(4);
+          });
+
+        // Step 5 days checkboxes
+        const dayBoxes = Array.from(document.querySelectorAll('.mpb-day'));
+        dayBoxes.forEach((cb) =>
+          cb.addEventListener('change', function () {
+            enforceDayLimit();
+            evaluateNextEnabled(5);
+          })
+        );
+
+        // Step 6 start date
+        const start = document.getElementById('mpb-start-date');
+        start &&
+          start.addEventListener('change', function () {
+            evaluateNextEnabled(6);
+          });
+
+        // Steps 7 & 8: optional — still monitor selection for UX
+        const favs = document.querySelectorAll('.mpb-favorite');
+        favs.forEach((f) => f.addEventListener('change', () => evaluateNextEnabled(7)));
+
+        // ✅ Step 8 - Beverages
+        const bevs = document.querySelectorAll('.mpb-beverage');
+        bevs.forEach((b) => b.addEventListener('change', () => evaluateNextEnabled(8)));
+      }
+
+      // enable/disable next by evaluating current step
+      function evaluateNextEnabled(n) {
+        const valid = isStepValid(n);
+        nextBtn.disabled = !valid;
+        if (valid) nextBtn.classList.add('enabled');
+        else nextBtn.classList.remove('enabled');
+      }
+
+      // click dots to navigate (restricted: only to steps <= current+1 for safety)
+      dots.forEach((d) =>
+        d.addEventListener('click', function () {
+          const target = Number(this.dataset.step);
+          if (target <= step || target === step + 1) {
+            // allow back or next immediate
+            showStep(target);
+          }
+        })
+      );
+
+      // wire nav
+      prevBtn && prevBtn.addEventListener('click', prev);
+      nextBtn && nextBtn.addEventListener('click', next);
+      addBtn && addBtn.addEventListener('click', addToCart);
+
+      // init
+      attachInputListeners();
+      showStep(1);
+
+      // Expose enforceDayLimit to window for debug
+      window._mpb_enforceDayLimit = enforceDayLimit;
+    });
+  })();
+</script>
+
+<style>
+.mpb-final { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+.mpb-final-inner { max-width:980px; margin:0 auto; padding:18px; background:linear-gradient(180deg,#fff,#fbfdff); border-radius:14px; box-shadow:0 10px 30px rgba(12,34,56,0.06); }
+.mpb-final-header { margin-bottom:12px; }
+.mpb-final-title { margin:0; font-size:20px; font-weight:700; color:#0b2540; }
+.mpb-final-sub { margin:0; color:#586675; font-size:14px; }
+.mpb-final-progress { height:8px; background:#eef3fb; border-radius:8px; overflow:hidden; margin:12px 0; }
+.mpb-final-progress-fill { height:100%; background:linear-gradient(90deg,#ff7a59,#ff3d81); width:0%; transition:width 350ms ease; }
+.mpb-final-indicators { display:flex; gap:10px; list-style:none; padding:0; margin:8px 0 14px 0; }
+.mpb-final-dot { width:34px; height:34px; border-radius:50%; background:#f3f6fb; display:flex; align-items:center; justify-content:center; font-weight:600; color:#2b4660; box-shadow:inset 0 -2px 0 rgba(0,0,0,0.02); cursor:pointer; }
+.mpb-final-dot.active { background:linear-gradient(180deg,#ff6b50,#ff3d81); color:#fff; box-shadow:0 6px 18px rgba(255,61,129,0.12); }
+.mpb-final-wizard { position:relative; min-height:260px; }
+.mpb-final-panel { position:absolute; left:0; top:0; width:100%; padding:12px; box-sizing:border-box; opacity:0; transform:translateX(18px); transition:all 320ms cubic-bezier(.22,.9,.36,1); pointer-events:none; }
+.mpb-final-panel.active { opacity:1; transform:translateX(0); pointer-events:auto; position:relative; }
+.mpb-final-panel h3 { margin:0 0 8px 0; font-size:16px; color:#0b2540; }
+.mpb-input { padding:12px; border-radius:10px; border:1px solid #e6eef8; width:100%; box-sizing:border-box; background:#fff; font-size:14px; color:#0b2540; }
+.mpb-final-radio { display:flex; gap:12px; margin-top:8px; }
+.mpb-radio { background:#f7fbff; padding:8px 12px; border-radius:8px; border:1px solid #e6f0fb; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+.mpb-note { color:#6b778a; font-size:13px; margin-bottom:8px; }
+.mpb-final-days { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-top:8px; }
+.mpb-final-day { display:flex; align-items:center; gap:8px; padding:10px; border-radius:10px; background:#fff; border:1px solid #f0f4fb; cursor:pointer; }
+.mpb-final-products { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin-top:10px; }
+.mpb-final-product { display:flex; gap:10px; align-items:center; padding:10px; border-radius:10px; background:#fff; border:1px solid #f0f4fb; cursor:pointer; }
+.prod-title { font-weight:600; color:#0b2540; }
+.mpb-final-nav { display:flex; justify-content:space-between; align-items:center; margin-top:14px; }
+.mpb-final-count { font-weight:700; color:#0b2540; margin-right:14px; }
+.mpb-btn { padding:10px 14px; border-radius:10px; background:#fff; border:1px solid #e6eef8; cursor:pointer; }
+.mpb-btn:disabled { opacity:0.45; cursor:not-allowed; }
+.mpb-btn-primary { background:linear-gradient(90deg,#ff7a59,#ff3d81); color:#fff; border:none; box-shadow:0 8px 20px rgba(255,61,129,0.12); }
+.mpb-btn-primary.enabled { box-shadow:0 10px 28px rgba(255,61,129,0.16); transform:translateY(-1px); }
+.mpb-final-review-wrapper { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+.mpb-review-row { display:flex; align-items:center; gap:12px; background:#fff; padding:10px; border-radius:8px; border:1px solid #f0f4fb; }
+.mpb-review-label { font-weight:600; width:180px; color:#1a3347; }
+.mpb-review-value { color:#233649; flex:1; }
+.mpb-review-edit { padding:6px 10px; border-radius:8px; background:transparent; border:1px solid #e6eef8; cursor:pointer; }
+@media (max-width:720px){
+  .mpb-final-inner { padding:12px; }
+  .mpb-final-products { grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); }
+  .mpb-review-label { width:120px; font-size:13px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Meal Plan Builder",
+  "settings": [
+    { 
+      "type": "text", 
+      "id": "heading", 
+      "label": "Heading", 
+      "default": "Create your Meal Plan" 
+    },
+    { 
+      "type": "text", 
+      "id": "subheading", 
+      "label": "Subheading", 
+      "default": "Customize your weekly meals" 
+    },
+    { 
+      "type": "text", 
+      "id": "confirm_text",
+      "label": "Confirm button text", 
+      "default": "Add to Cart" 
+    },
+    { 
+      "type": "product", 
+      "id": "meal_product_1", 
+      "label": "Meal product 1" 
+    },
+    { 
+      "type": "product", 
+      "id": "meal_product_2", 
+      "label": "Meal product 2" 
+    },
+    { 
+      "type": "product", 
+      "id": "meal_product_3", 
+      "label": "Meal product 3" 
+    },
+    { 
+      "type": "product", 
+      "id": "meal_product_4", 
+      "label": "Meal product 4" 
+    },
+    { "type": "product", 
+      "id": "meal_product_5", 
+      "label": "Meal product 5" 
+    },
+    { "type": "product", 
+      "id": "meal_product_6", 
+      "label": "Meal product 6" 
+    },
+    { "type": "product",
+      "id": "meal_product_7", 
+      "label": "Meal product 7" 
+    },
+    { "type": "product", 
+      "id": "meal_product_8", 
+      "label": "Meal product 8" 
+    },
+    { "type": "product", 
+      "id": "meal_product_9", 
+      "label": "Meal product 9" 
+    },
+    { "type": "product", 
+      "id": "meal_product_10", 
+      "label": "Meal product 10" 
+    },
+    { "type": "product", 
+      "id": "meal_product_11", 
+      "label": "Meal product 11" 
+    },
+    { "type": "product", 
+      "id": "meal_product_12", 
+      "label": "Meal product 12" 
+    },
+    { "type": "product", 
+      "id": "bev_product_1", 
+      "label": "Beverage product 1" 
+    },
+    { "type": "product", 
+      "id": "bev_product_2", 
+      "label": "Beverage product 2" 
+    },
+    { "type": "product", 
+      "id": "bev_product_3", 
+      "label": "Beverage product 3" 
+    },
+    { "type": "product", 
+      "id": "bev_product_4", 
+      "label": "Beverage product 4" 
+    },
+    { "type": "product", 
+      "id": "bev_product_5", 
+      "label": "Beverage product 5" 
+    },
+    { "type": "product", 
+      "id": "bev_product_6", 
+      "label": "Beverage product 6" 
+    },
+    { "type": "product", 
+      "id": "bev_product_7", 
+      "label": "Beverage product 7" 
+    },
+    { "type": "product", 
+      "id": "bev_product_8", 
+      "label": "Beverage product 8" 
+    }
+  ],
+  "presets": [
+    { "name": "Meal Plan Builder", 
+      "category": "Product" 
+    }
+  ]
+}
+{% endschema %}
+</section>

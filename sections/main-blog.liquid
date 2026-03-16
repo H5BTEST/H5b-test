@@ -1,0 +1,322 @@
+{{ 'component-article-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+    }
+  }
+{%- endstyle -%}
+
+{% assign count = 0 %}
+{% for block in section.blocks %}
+  {% assign count = count | plus: 1 %}
+{% endfor %}
+
+{%- paginate blog.articles by 6 -%}
+  <div class="main-blog page-width section-{{ section.id }}-padding">
+
+    {% if section.settings.enable_tab %}
+      <ul class="blog-tags-tab title-bottom-space">
+        <li class="{% if current_tags == blank %}active{% endif %}">
+          <a href="{{ blog.url }}">All posts</a>
+        </li>
+        {% for tag in blog.all_tags limit: 8 %}
+          {% if current_tags contains tag %}
+            <li class="active">
+              {{ tag | link_to_tag: tag }}
+            </li>
+          {% else %}
+            <li class="">{{ tag | link_to_tag: tag }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}  
+    
+    {% if section.settings.enable_sidebar and count > 0 %}<div class="main-blog-row {% if section.settings.sidebar_position == 'right' %}right-sidebar{% endif %}">{% endif %}
+     {% if section.settings.enable_sidebar and count > 0 %}
+      <div class="blog_template_sidebar">
+        {% render 'blog-sidebar' %}
+      </div>
+    {% endif %}
+    
+    <div class="blog-articles column-dektop--{{ section.settings.columns_desktop }} {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %} {% if section.settings.enable_sidebar and count > 0 %}article-right-part{% endif %}">
+      {%- for article in blog.articles -%}
+        <div
+          class="blog-articles__article article {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: {{ forloop.index }};"
+          {% endif %}
+        >
+          {%- render 'article-card',
+            article: article,
+            media_height: section.settings.image_height,
+            media_aspect_ratio: article.image.aspect_ratio,
+            show_image: section.settings.show_image,
+            show_date: section.settings.show_date,
+            show_author: section.settings.show_author,
+            show_comments: section.settings.show_comments,
+            show_category: section.settings.show_category,
+            show_excerpt: true
+          -%}
+        </div>
+      {%- endfor -%}
+    </div>
+    {% if section.settings.enable_sidebar and count > 0 %}</div>{% endif %}
+
+    {%- if paginate.pages > 1 -%}
+      {%- render 'pagination', paginate: paginate -%}
+    {%- endif -%}
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-blog.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sidebar",
+      "label": "Sidebar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_tab",
+      "label": "Tab",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "sidebar_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "label": "Sidebar position"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "t:sections.main-blog.settings.layout.options__1.label"
+        },
+        {
+          "value": "collage",
+          "label": "t:sections.main-blog.settings.layout.options__2.label"
+        }
+      ],
+      "default": "collage",
+      "label": "t:sections.main-blog.settings.layout.label"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "default": "2",
+      "label": "Columns",
+      "options": [
+        {
+          "value": "2",
+          "label": "2" 
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_image.label"
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-blog.settings.image_height.options__1.label"
+        },
+        {
+          "value": "small",
+          "label": "t:sections.main-blog.settings.image_height.options__2.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.main-blog.settings.image_height.options__3.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.main-blog.settings.image_height.options__4.label"
+        }
+      ],
+      "default": "medium",
+       "label": "t:sections.main-blog.settings.image_height.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_date.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "t:sections.main-blog.settings.show_author.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comments",
+      "default": false,
+      "label": "Comment count"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category",
+      "default": false,
+      "label": "Tags"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "categories",
+      "name": "Categories",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Blog Category"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Menu"
+        }
+      ]
+    },
+    {
+      "type": "tags",
+      "name": "Tags",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Tags"
+        }
+      ]
+    },
+    {
+      "type": "recent_post",
+      "name": "Recent post",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Recent Post"
+        },
+        {
+          "type": "range",
+          "id": "maximum",
+          "label": "Maximum to show",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "default": 3
+        }
+      ]
+    },
+    {
+      "type": "image_banner",
+      "name": "Image Banner",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image Banner",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "height-ratio",
+          "min": 20,
+          "max": 200,
+          "step": 2,
+          "unit": "px",
+          "label": "Image height ratio",
+          "default": 150
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

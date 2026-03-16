@@ -1,0 +1,187 @@
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+
+<svg viewBox="0 0 200 200" width="200" height="200">
+  <!-- Start shape -->
+  <path id="morphShape" fill="crimson" d="M100,50 A50,50 0 1,1 99.9,50 Z" />
+</svg>
+
+<button id="morphBtn">Morph!</button>
+
+
+<svg width="400" height="200" viewBox="0 0 400 200">
+  <!-- Define the motion path -->
+  <path id="motionPath" d="M 50 150 Q 200 0, 350 150" stroke="gray" fill="none"/>
+  
+  <!-- Element to move -->
+  <circle id="dot" r="10" fill="crimson" />
+</svg>
+
+<button id="animateBtn">Animate</button>
+
+
+
+<section class="story-wrapper">
+  <div class="StoryCanvasDesktop-pin">
+    <div class="image-wrapper"  id="clipSection">
+      <div class="image-mask">
+        <!-- First image -->
+        <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/product-banner.webp?v=1748341420"
+             class="story-image" id="img1" style="opacity: 1;" />
+        <!-- Second image -->
+        <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/parallax-iimg.jpg?v=1741088029"
+             class="story-image" id="img2" style="opacity: 0;" />
+        <!-- Final image -->
+        <img src="https://cdn.shopify.com/s/files/1/0720/7927/8380/files/image_fx__1.png?v=1738968815"
+             class="story-image" id="img3" style="opacity: 0;" />
+      </div>
+
+      <div class="text-overlay">
+        <div class="text-line">
+          <span id="text-butter">Butter</span>
+          <span class="underline" id="underline"></span>
+          <span id="text-palmoil">Palm Oil</span>
+        </div>
+
+        <svg class="curve-line" viewBox="0 0 243 243" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 0C1.00001 133.653 109.347 242 243 242" stroke="#FFF9EB" stroke-width="1.5" />
+        </svg>
+
+        <div class="final-line">
+          <p class="final-text">We craft delicious fats without depleting earth's resources</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+             <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <clipPath id="savorClipPath" clipPathUnits="objectBoundingBox">
+        <path d="M0,0.18 C0.05,0.08 0.15,0.02 0.25,0.005 C0.35,0 0.65,0 0.75,0.005 C0.85,0.02 0.95,0.08 1,0.18 L1,1 L0,1 L0,0.18 Z" />
+      </clipPath>
+      <clipPath id="rectangularClipPath" clipPathUnits="objectBoundingBox">
+        <path d="M0,0 L1,0 L1,1 L0,1 L0,0 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+</section>
+
+<style>
+  
+     .story-wrapper {
+    height: 400vh;
+    position: relative;
+  }
+
+  .StoryCanvasDesktop-pin {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+  }
+
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* #clipSection {
+ will-change: clip-path, transform;
+  clip-path: inset(15% 0% 0% 0% round 100px 100px 0 0);
+  transition: clip-path 0.3s ease;
+} */
+
+  .image-mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+   /* clip-path: url(#savorClipPath); */
+     clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  transition: clip-path 0.1s ease;
+  }
+
+  .story-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.6s ease;
+    opacity: 0;
+  }
+
+  #img1 {
+    opacity: 1;
+  }
+
+  .text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    max-width: 40%;
+    z-index: 2;
+    color: #fff;
+  }
+
+  .text-line {
+    font-size: 2.6rem;
+    white-space: nowrap;
+  }
+
+  #text-palmoil {
+    opacity: 0;
+    margin-left: 10px;
+  }
+
+  .underline {
+    display: inline-block;
+    height: 2px;
+    width: 0;
+    background: #fff;
+    margin: 0 10px;
+  }
+
+  .curve-line {
+    width: 300px;
+    height: auto;
+    transform: translateX(100%);
+    margin-top: 20px;
+  }
+
+  .final-line {
+    color: #fff;
+    opacity: 0;
+    transform: translateX(125%);
+    margin-left: auto;
+    text-align: left;
+    max-width: 60%;
+    position: relative;
+    top: -30px;
+  }
+
+  .final-text {
+    font-size: 2.6rem;
+    line-height: 1.2;
+  }
+</style>
+  
+
+{% schema %}
+  {
+    "name": "Gsap section",
+    "settings": [
+      
+    ],
+    "presets": [
+      {
+         "name": "Gsap section"
+      }
+    ]
+  }
+{% endschema %}

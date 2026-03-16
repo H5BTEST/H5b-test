@@ -1,0 +1,293 @@
+{% comment %}
+  Renders a megamenu for the header.
+
+  Usage:
+  {% render 'header-mega-menu' %}
+{% endcomment %}
+
+{% assign count = 0 %}
+{% for block in section.blocks %}
+  {% assign count = count | plus: 1 %}
+{% endfor %}
+
+
+<nav class="header__inline-menu">
+  <ul class="list-menu list-menu--inline" role="list">
+    {%- for link in section.settings.menu.links -%}
+    {% liquid
+        assign link_title_downcase = link.title | strip | downcase
+        assign mega_menu_block = ''
+
+        for block in section.blocks
+          assign menu_item_downcase = block.settings.menu_item | strip | downcase
+
+          if menu_item_downcase == link_title_downcase
+            assign mega_menu_block = block
+            break
+          endif
+
+        endfor
+      %}
+       {%- for i in (1..3) -%}
+        {%- assign image_setting = 'image_' | append: i -%}
+      
+        {%- if mega_menu_block.settings[image_setting] != blank -%}
+          {%- assign promo_item_count = promo_item_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+      
+      {%- if mega_menu_block.settings.product != blank -%}
+        {%- assign promo_item_count = promo_item_count | plus: 1 -%}
+      {%- endif -%}
+      
+      {%- if mega_menu_block.settings[image_setting] != blank  and mega_menu_block.settings.product != blank -%}
+        {%- assign is_promo_carousel = true -%}
+      {% endif %}
+      <li>
+        {%- if link.links != blank -%}
+          <header-menu>
+            <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu">
+              <summary
+                id="HeaderMenu-{{ link.handle }}"
+                class="header__menu-item list-menu__item link focus-inset"
+              >
+                <span
+                  {%- if link.child_active %}
+                    class="header__active-menu-item"
+                  {% endif %}
+                >
+                  {{- link.title | escape -}}
+                </span>
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </summary>
+              <div
+                id="MegaMenu-Content-{{ forloop.index }}"
+                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
+                tabindex="-1"
+              >
+                {% if mega_menu_block != '' %}<div class="page-width">
+                  <ul class="brand-alpha-filter">
+                    <li><a href="#" class="alpha-filter active" data-letter="all">View All</a></li>
+                    {% assign letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" | split: "" %}
+                    {% for l in letters %}
+                      <li><a href="#" class="alpha-filter" data-letter="{{ l }}">{{ l }}</a></li>
+                    {% endfor %}
+                  </ul>
+                  <div class="navigation-row navigation-promo-count-{{ promo_item_count }}">{% endif %}
+                    <ul
+                      class="mega-menu__list{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}  {% if mega_menu_block != '' %}navigation-promo-wrap{% else %}page-width{% endif %}"
+                      role="list"
+                    >
+                    {%- for childlink in link.links -%}
+                      {% if childlink.title contains 'https://' or childlink.title contains 'http://' %}
+                      {% assign img_url = childlink.title | split:'|' %}
+                        <li class="navigation-menu">
+                          <div class="mega_menu_img">
+                            <a href="{{ childlink.url }}" class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}">
+                              <img src="{{ img_url[1] }}" class="mega_img" alt="megamenu-img" width="100" height="100">
+                            </a>
+                          </div>
+                        </li>
+                      {% else %}
+                        <li class="navigation-menu">
+                          <a
+                            id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                            href="{{ childlink.url }}"
+                            class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
+                            {% if childlink.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{ childlink.title | escape }}
+                          </a>
+                          {%- if childlink.links != blank -%}
+                            <ul class="list-unstyled" role="list">
+                              {%- for grandchildlink in childlink.links -%}
+                                 {% if grandchildlink.title contains 'https://' or grandchildlink.title contains 'http://' %}
+                                  {% assign img_url = grandchildlink.title | split:'|' %}
+                                    <li>
+                                      <div class="mega_menu_img">
+                                        <a href="{{ grandchildlink.url }}" class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}">
+                                          <img src="{{ img_url[1] }}" class="mega_img" alt="megamenu-img" width="100" height="100">
+                                        </a>
+                                      </div>
+                                    </li>
+                                  {% else %}
+                                  <li>
+                                    {%- assign clean_title = grandchildlink.title -%}
+                                    {%- if clean_title contains '[' and clean_title contains ']' -%}
+                                      {%- assign clean_parts = clean_title | split: ']' -%}
+                                      {%- assign clean_title = clean_parts[1] | strip -%}
+                                    {%- endif -%}
+
+                                    <a
+                                      id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                      href="{{ grandchildlink.url }}"
+                                      class="grandchild-item mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
+                                      {% if grandchildlink.current %}
+                                        aria-current="page"
+                                      {% endif %}
+                                      data-letter="{{ clean_title | slice:0,1 | upcase }}"
+                                    >
+                                      {%- if grandchildlink.title contains '[' and grandchildlink.title contains ']' -%}
+                                        {%- assign parts = grandchildlink.title | split: ']' -%}
+                                        {%- assign labelName = parts[0] | remove: '[' | strip -%}
+                                        {%- assign mainText = parts[1] | strip -%}
+                                          <span class="label-text">{{ labelName }}</span>
+                                          {{ mainText }}
+                                      {%- else -%}
+                                        {{ grandchildlink.title | escape }}
+                                      {%- endif -%}
+                                    </a>
+                                  </li>
+                                {% endif %}
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+                        </li>
+                      {% endif %}
+                    {%- endfor -%}
+                  </ul>
+
+                  
+                  {% if mega_menu_block != '' %}
+                  <div class="{% if is_promo_carousel %}swiper-container menu-slider{% endif %} navigation-img-wrap">
+                    <div class="{% if is_promo_carousel %}swiper-wrapper{% else %}navigation-promo{% endif %}">
+                      {%- for i in (1..promo_item_count) -%}
+                        {%- assign image_setting = 'image_' | append: i -%}
+                        {%- assign image_heading_setting = 'image_heading_' | append: i -%}
+                        {%- assign image_content_setting = 'image_content_' | append: i -%}
+                        {%- assign image_link_setting = 'image_link_' | append: i -%}
+                    
+                        {%- if mega_menu_block.settings[image_setting] != blank -%}
+                          {%- capture image_sizes -%}
+                            {%- if is_promo_grid -%}
+                              (max-width: 699px) 172px, (max-width: 1149px) 192px,{% if is_navigation_drawer %}220px{% else %}minmax(220px, 440px){% endif %}
+                            {%- elsif is_promo_collage -%}
+                              {%- if forloop.first -%}{% if is_promo_stretch %}minmax(350px, 880px){% else %}minmax(350px, 650px){% endif %}{% else %}{% if is_promo_stretch %}minmax(192px, 440px){% else %}minmax(192px, 350px){% endif %}{%- endif -%}
+                            {%- else -%}
+                              (max-width: 699px) 100vw, (max-width: 1150px) 316px, {% if is_navigation_drawer %}360px{% else %}{% if is_promo_stretch %}440px{% else %}360px{% endif %}{% endif %}
+                            {%- endif -%}
+                          {%- endcapture -%}
+                    
+                          <a {% if mega_menu_block.settings[image_link_setting] %}href="{{ mega_menu_block.settings[image_link_setting] }}"{% endif %}
+                             class="{% if is_promo_carousel %}swiper-slide{% endif %} navigation-menu media media--transparent ratio" style="--ratio-percent: 100%">
+                              {{- mega_menu_block.settings[image_setting] | image_url: width: image.width | image_tag: loading: 'lazy', sizes: image_sizes, widths: '200,300,400,500,600,800,1000', class: "zoom-image w-100" -}}
+                            {%- if mega_menu_block.settings[image_heading_setting] != blank -%}
+                              <div class="navigation-custom-text">
+                                <div class="mega-menu__link mega-menu__link--level-2">{{- mega_menu_block.settings[image_heading_setting] | escape -}}</div>
+                                <p class="mega-menu__link">{{- mega_menu_block.settings[image_content_setting] | escape -}}</p>
+                              </div>
+                            {%- endif -%}
+                          </a>
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- if mega_menu_block.settings.product != blank -%}
+                        <div class="{% if is_promo_carousel %}swiper-slide{% endif %}">
+                          {% render 'card-product',
+                              card_product: mega_menu_block.settings.product,
+                              skip_styles: skip_card_product_styles,
+                              section_id: section.id
+                            %}
+                        </div>
+                      {%- endif -%}
+                    </div>
+
+                    {% if is_promo_carousel %}
+                      <div class="swiper-buttons">
+                        <div class="swiper-button-prev menu-swiper-button-prev"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+                        <div class="swiper-button-next menu-swiper-button-next"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+                      </div>
+                    {% endif %}
+                    
+                  </div>
+                  {% endif %}
+               
+                  {% if mega_menu_block != '' %}</div></div>{% endif %}
+              </div>
+            </details>
+          </header-menu>
+        {%- else -%}
+          <a
+            id="HeaderMenu-{{ link.handle }}"
+            href="{{ link.url }}"
+            class="header__menu-item list-menu__item link link--text focus-inset"
+            {% if link.current %}
+              aria-current="page"
+            {% endif %}
+          >
+            <span
+              {%- if link.current %}
+                class="header__active-menu-item"
+              {% endif %}
+            >
+              {{- link.title | escape -}}
+            </span>
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>
+
+<script>
+document.querySelectorAll('.mega-menu__content').forEach(function(menu){
+  const filters = menu.querySelectorAll('.alpha-filter');
+  const items = menu.querySelectorAll('.grandchild-item');
+
+  filters.forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      filters.forEach(a=>a.classList.remove('active'));
+      this.classList.add('active');
+
+      const letter = this.dataset.letter;
+      items.forEach(function(item){
+        if(letter === 'all'){
+          item.style.display = 'block';
+        } else if(item.dataset.letter === letter){
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
+
+<style>
+span.label-text{
+  padding: .25rem .5rem;
+  font-size: 1rem;
+  background-color: rgba(var(--color-custom), 0.5);
+  color: rgba(var(--color-button-text));
+  transition: all var(--duration-long) ease;
+  margin-right: .5rem;
+}
+.mega-menu__link:hover span.label-text{
+  background-color: rgba(var(--color-custom));
+  color: rgba(var(--color-button-text));
+}
+.brand-alpha-filter {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 4rem;
+}
+.alpha-filter{
+  padding: 0.5rem 1rem;
+  background-color: rgba(var(--color-custom), 0.5);
+  color: rgba(var(--color-button-text));
+}
+.brand-alpha-filter .alpha-filter.active {
+  background-color: rgba(var(--color-custom));
+  color: rgba(var(--color-button-text));
+  font-weight:bold;
+  text-decoration:underline;
+}
+.grandchild-item {
+  margin:3px 0;
+}
+</style>

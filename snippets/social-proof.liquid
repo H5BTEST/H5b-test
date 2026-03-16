@@ -1,0 +1,64 @@
+{% if settings.enable_customer_activity %}
+{%- assign prodmin = 1 -%}
+{%- assign prodmax = collections[settings.activity_collection].products_count -%}
+{%- assign proddiff = prodmax | minus: prodmin -%}
+
+
+{%- assign timemin = 1 -%}
+{%- assign timemax = 30 -%}
+{%- assign timediff = timemax | minus: timemin -%}
+
+{%- assign actionmin = 3 -%}
+{%- assign actionmax = 7 -%}
+{%- assign actiondiff = actionmax | minus: actionmin -%}
+
+{%- assign prodnames = '' -%}
+{%- assign prodlinks = '' -%}
+{%- assign prodimages = '' -%}
+{%- for product in collections[settings.activity_collection].products -%}
+	{%- assign prodnames = prodnames | append: product.title | append: ';' -%}
+	{%- assign prodlinks = prodlinks | append: product.url | append: ';' -%}
+	{%- capture image -%}{{product.featured_image.src | img_url: 'small' }}{%- endcapture-%}
+	{%- assign prodimages = prodimages | append: image | append: ';' -%}
+{%- endfor -%}
+
+{%- assign prodnames = prodnames | remove_last: ';' | split: ';' -%}
+{%- assign prodlinks = prodlinks | remove_last: ';' | split: ';' -%}
+{%- assign prodimages = prodimages | remove_last: ';' | split: ';' -%}
+
+<div id="socialproof">
+  <span class="close"><svg class="Icon Icon--close" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></span>
+  <ul class="proofs" data-flickity='{
+              "draggable": false,
+              "percentPosition": false,
+              "groupCells": "100%",
+              "pageDots": false,
+              "prevNextButtons": false,
+              "autoPlay": true,
+              "rightToLeft": true,
+              "wrapAround": true,
+              "freeScroll": true,
+              "freeScrollFriction": 0.01,
+              "autoPlay": 4000
+            }'>
+    {%- assign action = "now" | date: "%N" | modulo: actiondiff | plus: actionmin -%}
+    
+    {%- for i in (1..10) -%}
+    {%- assign randomNumber = "now" | date: "%N" | modulo: proddiff | plus: prodmin | plus: {{i}} -%}
+    {%- assign minutes = "now" | date: "%N" | modulo: timediff | plus: timemin -%}
+    {% if prodlinks[randomNumber] != blank %}
+    <li class="proof" rel="{{randomNumber}}">
+      <div class="inner color-{{ settings.color_scheme }} gradient">
+        <a class="proof-pro-img" href="{{prodlinks[randomNumber]}}?utm_source=socialproof" rel="nofollow"><img src="{{prodimages[randomNumber]}}" alt="{{prodnames[randomNumber]}}" /></a>      
+        {%- if i == action -%}
+        	<span class="text">Someone purchased <a href="{{prodlinks[randomNumber]}}?utm_source=socialproof" rel="nofollow">{{prodnames[randomNumber] | replace: 'TGL Co.', ''}}</a> <small>{{minutes}} mins ago</small></span>
+        {%- else -%}
+        	<span class="text">Someone viewed <a href="{{prodlinks[randomNumber]}}?utm_source=socialproof" rel="nofollow">{{prodnames[randomNumber] | replace: 'TGL Co.', ''}}</a> <small>{{minutes}} mins ago</small></span>
+        {%- endif -%}
+      </div>
+    </li>
+    {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</div>
+{% endif %}

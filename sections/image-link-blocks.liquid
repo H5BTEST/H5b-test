@@ -1,0 +1,316 @@
+<div class="image_link_blocks section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  {% if section.settings.main_subheading != blank or section.settings.main_heading != blank or section.settings.main_paragraph != blank %}
+    <div class="page-width">
+      <div class="linkblock_title_wrap title-bottom-space {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %}">
+        {% if section.settings.main_subheading != blank %}<div class="sec_subheading">{{ section.settings.main_subheading }}</div>{% endif %}
+        {% if section.settings.main_heading != blank %}<div class="sec_heading h2">{{ section.settings.main_heading }}</div>{% endif %}
+        {% if section.settings.main_paragraph != blank %}<div class="sec_content">{{ section.settings.main_paragraph }}</div>{% endif %}
+      </div>
+    </div>
+  {% endif %}
+  <div class="link-block-item {% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}">
+      <div class="link_block_wrapper swiper-container"
+        data-desktop="{{ section.settings.collection-desktop }}" data-largetablet="{{ section.settings.collection-large-tablet }}" data-tablet="{{ section.settings.collection-tablet }}" 
+        data-mobile="{{ section.settings.collection-mobile }}" data-autoplay="{{ section.settings.autoplay-enable }}"
+        data-speed="{{ section.settings.speed }}" data-loop="{{ section.settings.loop }}" data-desktopspace="{{ settings.spacing_grid_horizontal }}" data-mobilespace="{{ settings.spacing_grid_horizontal | divided_by: 2 }}">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+          {% if block.type == 'link-block' %}
+          <div class="swiper-slide">
+            <div class="linkblock__image_wrapper block-{{ block.id }}">
+              <a {% if block.settings.link == blank %} role="link" aria-disabled="true" {% else %}
+                  href="{{ block.settings.link}}" {% endif %} aria-label="{{ block.settings.title }}">
+                  <div class="linkblock_img">
+                    {%- if block.settings.image != blank -%}
+                      <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.img-ratio }}%">
+                        {{ block.settings.image | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+                      </div>
+                    {% else %}
+                      <div class="media media--transparent ratio" style="--ratio-percent: {{ block.settings.img-ratio }}%">
+                        {%- capture current -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+                        {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="linkblock_name_wrapper h3">
+                    {% if block.settings.title != blank %}
+                      {{ block.settings.title }}
+                      <svg role="presentation" focusable="false" width="24" height="24" class="icon icon-circle-button-right-clipped reverse-icon" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12ZM10.47 9.53 12.94 12l-2.47 2.47 1.06 1.06 3-3 .53-.53-.53-.53-3-3-1.06 1.06Z" fill="currentColor"></path>
+                      </svg>
+                    {% endif %}
+                  </div>
+              </a>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% if section.settings.arrows %}
+        <div class="swiper-buttons">
+          <div class="content-buttons">
+            <div class="swiper-button-next linkblock-swiper-button-next"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+            <div class="swiper-button-prev linkblock-swiper-button-prev"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.dots -%}
+        <div class="swiper-pagination linkblock-swiper-pagination" id="swiper-pagination-{{section.id}}"></div>
+        {% endif %}
+      </div>
+  </div>
+</div>
+
+{% style %}
+  .image_link_blocks.section-{{ section.id }}-padding .linkblock_title_wrap{
+    text-align: {{ section.settings.text_alignment }};
+  }
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+    }
+  }
+  {% for block in section.blocks %}
+  {% if block.type == 'link-block' %}
+    .image_link_blocks .block-{{ block.id }} .linkblock_name_wrapper.h3{
+      color: {{ block.settings.title_color }};
+    }
+  {% endif %}
+  {% endfor %}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Image link blocks",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.header_text.content"
+    },
+    {
+      "type": "text",
+      "id": "main_subheading",
+      "label": "Subheading",
+      "default": "Best collections"
+    },
+    {
+      "type": "textarea",
+      "id": "main_heading",
+      "label": "Heading",
+      "default": "Category collection"
+    },
+    {
+      "type": "textarea",
+      "id": "main_paragraph",
+      "label": "Content",
+      "default": "Pair text with an image to focus on your chosen product."
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Collection"
+    },
+    {
+      "type": "range",
+      "id": "collection-desktop",
+      "min": 1,
+      "max": 7,
+      "step": 1,
+      "default": 4,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "range",
+      "id": "collection-large-tablet",
+      "min": 1,
+      "max": 7,
+      "step": 1,
+      "default": 3,
+      "label": "Large tablet columns"
+    },
+    {
+      "type": "range",
+      "id": "collection-tablet",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Tablet columns"
+    },
+    {
+      "type": "range",
+      "id": "collection-mobile",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 2,
+      "label": "Mobile columns"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay-enable",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Navigation arrows",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "dots",
+      "label": "Pagination dots",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "speed",
+      "label": "Slide speed",
+      "default": "800"
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Top bottom padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link-block",
+      "name": "Link block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "img-ratio",
+          "min": 20,
+          "max": 200,
+          "step": 2,
+          "unit": "px",
+          "label": "Image height ratio",
+          "default": 100
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Color settings"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image link blocks",
+      "blocks": [
+        {
+          "type": "link-block"
+        },
+        {
+          "type": "link-block"
+        },
+        {
+          "type": "link-block"
+        },
+        {
+          "type": "link-block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

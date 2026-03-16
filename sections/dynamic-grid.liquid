@@ -1,0 +1,273 @@
+<div class="dynamic-grid-section section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  <div class="{% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %}">
+    <div class="dynamic-grid-wrapper {{ section.settings.style }}">
+      <div class="dynamic-first-column">
+        {% if section.settings.main_subheading != blank or section.settings.main_heading != blank or section.settings.main_paragraph != blank %}
+          <div class="column__title title-bottom-space {{ section.settings.main_title_alignment }} {% if settings.animations_reveal_on_scroll %}scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %}">
+            {% if section.settings.main_subheading != blank %}<div class="sec_subheading">{{ section.settings.main_subheading }}</div>{% endif %}
+            {% if section.settings.main_heading != blank %}<div class="sec_heading h2">{{ section.settings.main_heading }}</div>{% endif %}
+            {% if section.settings.main_paragraph != blank %}<div class="sec_content">{{ section.settings.main_paragraph }}</div>{% endif %}
+          </div>
+         {% endif %}
+        <div class="dynamic-grid-image">
+          {% if section.settings.image1 != blank %}
+            <div class="media media--transparent ratio {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}" style="--ratio-percent: {{ section.settings.height_ratio1 }}%">
+              {{ section.settings.image1 | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+            </div>
+          {% else %}
+            <div class="media media--transparent ratio {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}" style="--ratio-percent: {{ section.settings.height_ratio1 }}%">
+              {%- capture current -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+              {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder placeholder-bg' }}
+            </div>
+          {% endif %}
+          {% if section.settings.before_image1 != blank %}
+            <div class="before-small-image {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}">
+              {{ section.settings.before_image1 | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+            </div>
+          {% endif %}
+        </div>
+        
+      </div>
+      <div class="dynamic-second-column">
+        <div class="dynamic-grid-image">
+          {% if section.settings.image2 != blank %}
+            <div class="media media--transparent ratio {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}" style="--ratio-percent: {{ section.settings.height_ratio2 }}%">
+              {{ section.settings.image2 | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+            </div>
+            {% else %}
+            <div class="media media--transparent ratio {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}" style="--ratio-percent: {{ section.settings.height_ratio2 }}%">
+              {%- capture current -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+              {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder placeholder-bg' }}
+            </div>
+          {% endif %}
+          {% if section.settings.before_image2 != blank %}
+            <div class="before-small-image {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}">
+              {{ section.settings.before_image2 | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+            </div>
+          {% endif %}
+        </div>
+        
+      </div>
+      <div class="dynamic-third-column">
+        {% if section.settings.before_image3 != blank %}
+          <div class="before-small-image {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}">
+            {{ section.settings.before_image3 | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+          </div>
+        {% endif %}
+        <div class="dynamic-grid-image">
+          {% if section.settings.image3 != blank %}
+            <div class="media media--transparent ratio {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}" style="--ratio-percent: {{ section.settings.height_ratio3 }}%">
+              {{ section.settings.image3 | image_url: width: 1920 | image_tag : loading: 'lazy', class: 'w-100' }}
+            </div>
+            {% else %}
+            <div class="media media--transparent ratio {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}" style="--ratio-percent: {{ section.settings.height_ratio3 }}%">
+              {%- capture current -%}{%- cycle 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+              {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder placeholder-bg' }}
+            </div>
+          {% endif %}
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- style -%}
+.section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+@media screen and (max-width: 991px) {
+  .section-{{ section.id }}-padding {
+    padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+    padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+  }
+}
+@media screen and (max-width: 767px) {
+  .section-{{ section.id }}-padding {
+    padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+    padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+  }
+}
+{%- endstyle -%}
+
+{% schema %}
+  {
+    "name": "Dynamic grid",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Make section full width",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "First column settings"
+      },
+      {
+        "type": "text",
+        "id": "main_subheading",
+        "label": "Subheading",
+        "default": "Collection"
+      },
+      {
+        "type": "textarea",
+        "id": "main_heading",
+        "label": "Heading",
+        "default": "Featured products"
+      },
+      {
+        "type": "richtext",
+        "id": "main_paragraph",
+        "label": "Content",
+        "default": "<p>Pair text with an image to focus on your chosen product.</p>"
+      },
+      {
+        "type": "select",
+        "id": "main_title_alignment",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Section style",
+        "options": [
+          {
+            "value": "modern",
+            "label": "Modern"
+          },
+          {
+            "value": "classic",
+            "label": "Classic"
+          }
+        ],
+        "default": "modern",
+        "info": "Modern is the default mobile layout."
+      },
+      {
+        "type": "image_picker",
+        "id": "image1",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "height_ratio1",
+        "min": 20,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Desktop image height ratio",
+        "default": 100
+      },
+      {
+        "type": "image_picker",
+        "id": "before_image1",
+        "label": "Before image"
+      },
+      {
+        "type": "header",
+        "content": "Second column settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "image2",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "height_ratio2",
+        "min": 20,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Desktop image height ratio",
+        "default": 100
+      },
+      {
+        "type": "image_picker",
+        "id": "before_image2",
+        "label": "Before image"
+      },
+      {
+        "type": "header",
+        "content": "Third column settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "image3",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "height_ratio3",
+        "min": 20,
+        "max": 200,
+        "step": 2,
+        "unit": "px",
+        "label": "Desktop image height ratio",
+        "default": 100
+      },
+      {
+        "type": "image_picker",
+        "id": "before_image3",
+        "label": "Before image"
+      },
+      {
+        "type": "header",
+        "content": "Color settings"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 2,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Dynamic grid"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,585 @@
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .testimonials .testimonial__title{
+    text-align: {{ section.settings.main_title_alignment }};
+  }
+  .testimonials .testimonial-ratings svg,
+  .testimonials .testimonial-quates{
+    fill: rgb(var(--color-foreground));
+  }
+  .testimonials .product_to_review {
+    border-top: 1px solid rgb(var(--color-foreground), 0.4);
+  }
+  {% if section.settings.bg_img != blank %}
+    .section-{{ section.id }}-padding{
+      background-image: url({% if section.settings.bg_img != blank %} {{ section.settings.bg_img | img_url: 'master' }} {% endif %});
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  {% endif %}
+  {% if section.settings.columns_desktop == 1 and section.settings.columns_tablet == 1 and section.settings.columns_mobile == 1 %}
+    .testimonials .testimonials-card {
+      max-width: 65%;
+      margin: 0 auto;
+    }
+    @media screen and (max-width: 840px){
+      .testimonials .testimonials-card {
+        max-width: 90%;
+      }
+    }
+  {% endif %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  @media screen and (max-width: 991px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.67 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.67 | round: 0 }}px, 15px);
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .section-{{ section.id }}-padding {
+      padding-top: max({{ section.settings.padding_top | times: 0.33 | round: 0 }}px, 15px);
+      padding-bottom: max({{ section.settings.padding_bottom | times: 0.33 | round: 0 }}px, 15px);
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign show_desktop_slider = false
+  if section.settings.enable_desktop_slider and section.blocks.size >= section.settings.columns_desktop
+    assign show_desktop_slider = true
+  endif
+-%}
+
+<div class="testimonials section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  {% if section.settings.t_subtitle != blank or section.settings.t_title != blank or section.settings.t_description != blank %}
+    <div class="page-width">
+      <div class="testimonial__title title-bottom-space {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% else %}animate ad-2 show_up{% endif %}">
+        {% if section.settings.t_subtitle != blank %}
+          <div class="testimonial-list-subtitle sec_subheading">{{ section.settings.t_subtitle }}</div>
+        {% endif %}
+        {% if section.settings.t_title != blank %}
+          <div class="testimonial-list-title sec_heading h2">{{ section.settings.t_title }}</div>
+        {% endif %}
+        {% if section.settings.t_description != blank %}
+          <div class="testimonial-list-description sec_content">{{ section.settings.t_description }}</div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+  <div class="testimonial_main_tap {% if section.settings.full_width == false %}page-width{% else %}section-full-width{% endif %} {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% else %}animate ad-2{% endif %}">
+    <slider-component class="swiper-container testimonial-slider"
+        data-desktop="{{ section.settings.columns_desktop }}" data-largetablet="{{ section.settings.columns_large_tablet }}"
+        data-tablet="{{ section.settings.columns_tablet }}" data-mobile="{{ section.settings.columns_mobile }}" data-autoplay="{{ section.settings.autoplay_enable }}"
+        data-loop="{{ section.settings.loop }}" data-speed="{{ section.settings.speed }}" data-desktopspace="{{ settings.spacing_grid_horizontal }}" data-mobilespace="{{ settings.spacing_grid_horizontal | divided_by: 2 }}">
+        <ul
+          class="testimonials-list contains-content-container swiper-wrapper"
+          id="Slider-{{ section.id }}"
+          role="list"
+        >
+          {%- liquid
+            assign highest_ratio = 0
+            for block in section.blocks
+              if block.settings.image.aspect_ratio > highest_ratio
+                assign highest_ratio = block.settings.image.aspect_ratio
+              endif
+            endfor
+          -%}
+          {%- for block in section.blocks -%}
+            <li
+              id="Slide-{{ section.id }}-{{ forloop.index }}"
+              class="testimonials-list__item testimonials-list__item--{{ section.settings.column_alignment }} swiper-slide"
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+              {% endif %}
+            >
+              <div class="testimonials-card content-container column-{{ block.id }}">
+                
+                  {%- if block.settings.image != blank -%}
+                    {% if section.settings.image_ratio == 'adapt' or section.settings.image_ratio == 'circle' %}
+                      {% assign spaced_image = true %}
+                    {% endif %}
+                    <div class="testimonials-card__image-wrapper {{ section.settings.column_alignment }} testimonials-card__image-wrapper--{{ section.settings.image_width }}-width{% if section.settings.image_width != 'full' or spaced_image %} testimonials-card-spacing{% endif %}">
+                      <div
+                        class="media media--transparent media--{{ section.settings.image_ratio }}"
+                        {% if section.settings.image_ratio == 'adapt' %}
+                          style="padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;"
+                        {% endif %}
+                      >
+                        {%- liquid
+                          assign number_of_columns = section.settings.columns_desktop
+                          assign grid_space_desktop = number_of_columns | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                          if section.settings.image_width == 'half'
+                            assign image_width = 0.5
+                          elsif section.settings.image_width == 'third'
+                            assign image_width = 0.33
+                          else
+                            assign image_width = 1
+                          endif
+                        -%}
+                        {% capture sizes %}
+                          (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - {{ grid_space_desktop }}) * {{ image_width }} /  {{ number_of_columns }}),
+                          (min-width: 990px) calc((100vw - {{ grid_space_desktop }}) * {{ image_width }} / {{ number_of_columns }})
+                        {% endcapture %}
+                        {{
+                          block.settings.image
+                          | image_url: width: 3200
+                          | image_tag:
+                            widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
+                            sizes: sizes,
+                            class: 'testimonials-card__image'
+                        }}
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="{{ section.settings.column_alignment }} testimonial-svg">
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="29.000000pt" height="26.000000pt"
+                        viewBox="0 0 29.000000 26.000000" preserveAspectRatio="xMidYMid meet" class="testimonial-quates">
+                        <g transform="translate(0.000000,26.000000) scale(0.100000,-0.100000)" stroke="none">
+                          <path
+                            d="M81 205 c-48 -53 -71 -100 -71 -148 0 -38 15 -57 45 -57 49 0 75 77 35 102 -28 18 -25 37 11 92 17 26 29 49 27 52 -3 2 -24 -16 -47 -41z" />
+                          <path
+                            d="M235 212 c-45 -45 -74 -104 -75 -152 0 -41 14 -60 45 -60 50 0 74 75 34 104 -27 19 -20 53 21 100 42 47 22 54 -25 8z" />
+                        </g>
+                      </svg>
+                    </div>
+                  {%- endif -%}
+                
+                <div class="testimonials-card__info">
+                  {%- if block.settings.text != blank -%}
+                    <div class="review_description">{{ block.settings.text }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.show_rating -%}
+                    <div class="testimonial-ratings">
+                      {% if block.settings.first_star %}
+                      {{- 'icon-star.svg' | inline_asset_content -}}
+                      {% endif %}
+                      {% if block.settings.second_star %}
+                      {{- 'icon-star.svg' | inline_asset_content -}}
+                      {% endif %}
+                      {% if block.settings.third_star %}
+                      {{- 'icon-star.svg' | inline_asset_content -}}
+                      {% endif %}
+                      {% if block.settings.fourth_star %}
+                      {{- 'icon-star.svg' | inline_asset_content -}}
+                      {% endif %}
+                      {% if block.settings.half_star == false %}
+                      {% if block.settings.fifth_star %}
+                      {{- 'icon-star.svg' | inline_asset_content -}}
+                      {% endif %}
+                      {% else %}
+                      {% if block.settings.half_star %}
+                        {{- 'icon-half-star' | inline_asset_content -}}
+                      {% endif %}
+                      {% endif %}
+                    </div>
+                  {%- endif -%}
+                  <div class="testimonial-adition">
+                    {%- if block.settings.author_name != blank -%}
+                    <div class="author-name-tag">
+                      <div class="h3">{{ block.settings.author_name }}</div>
+                    </div>
+                    {% endif %}
+                    <div class="testi_dash"> - </div>
+                    {%- if block.settings.author_designation != blank -%}
+                    <div class="author-designation-tag">
+                      <div class="h3">{{ block.settings.author_designation }}</div>
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% if block.settings.review_product %}
+                    <div class="product_to_review">
+                      {% if block.settings.product != blank %}
+                      {%- assign product = all_products[block.settings.product] -%}
+                      {% render 'card-product',
+                        card_product: product,
+                        media_aspect_ratio: settings.p_image_ratio,
+                        show_secondary_image: settings.p_show_secondary_image,
+                        show_vendor: section.settings.show_vendor,
+                        show_rating: section.settings.show_rating,
+                        section_id: section.id
+                      %}
+                      {% else %}
+                      <div class="card">
+                        <a class="card__inner">
+                          {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                          {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                        </a>
+                        <div class="product-collection__content">
+                          <div class="product-collection__title h4">
+                            <a class="cd">{{ 'onboarding.product_title' | t }}</a>
+                          </div>
+                          <span class="price price--sale">
+                            <span class="current"><span class="money">$.59.00</span></span>
+                          </span>
+                        </div>
+                      </div>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <div class="swiper-controls">
+          <div class="swiper-scrollbar"></div>
+          {% if section.settings.arrows%}
+            <div class="swiper-buttons">
+              <div class="swiper-button-prev testimonial-swiper-button-prev"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+              <div class="swiper-button-next testimonial-swiper-button-next"><span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span></div>
+            </div>
+          {% endif %}
+          
+        </div>
+      </slider-component>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": false
+   },
+   {
+    "type": "header",
+    "content": "t:sections.featured-collection.settings.header_text.content"
+   },
+   {
+      "type": "text",
+      "id": "t_subtitle",
+      "label": "Subheading",
+      "default": "Client review"
+    },
+    {
+      "type": "textarea",
+      "id": "t_title",
+      "label": "Heading",
+      "default": "Testimonial"
+    },
+    {
+      "type": "richtext",
+      "id": "t_description",
+      "label": "Content",
+      "default": "<p>Write reviews of your happy clients.</p>"
+    },
+    {
+      "type": "select",
+      "id": "main_title_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Text alignment"
+    },
+    {
+      "type": "header",
+      "content": "Testimonial setting"
+    },
+    {
+      "type" : "image_picker",
+      "id" : "bg_img",
+      "label" : "Background image",
+      "info": "If need image in main background"
+    },
+    {
+      "type": "select",
+      "id": "image_width",
+      "options": [
+        {
+          "value": "third",
+          "label": "One-third width of column"
+        },
+        {
+          "value": "half",
+          "label": "Half width of column"
+        },
+        {
+          "value": "full",
+          "label": "Full width of column"
+        }
+      ],
+      "default": "third",
+      "label": "Image width",
+      "info": "If image is available in place of quotes icon"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "circle",
+          "label": "Circle"
+        }
+      ],
+      "default": "circle",
+      "label": "Image ratio"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.columns_desktop.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_large_tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Large tablet columns"
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "label": "Tablet columns"
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1,
+      "label": "Mobile columns"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_enable",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Navigation arrows",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "speed",
+      "label": "Slide speed",
+      "default": "800"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "label": "Column alignment"
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Top bottom padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "author_name",
+          "default": "Name",
+          "label": "Name"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "author_designation",
+          "default": "Designation",
+          "label": "Designation"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+          "label": "Content"
+        },
+        {
+          "type": "header",
+          "content": "Star rating settings",
+          "info": "Note: select only one 'fifth star' or 'half star' (this info is only for fifth star rating)."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating",
+          "default": true,
+          "label": "Rating"
+        },
+        {
+          "type": "checkbox",
+          "id": "first_star",
+          "default": true,
+          "label": "First star"
+        },
+        {
+          "type": "checkbox",
+          "id": "second_star",
+          "default": true,
+          "label": "Second star"
+        },
+        {
+          "type": "checkbox",
+          "id": "third_star",
+          "default": true,
+          "label": "Third star"
+        },
+        {
+          "type": "checkbox",
+          "id": "fourth_star",
+          "default": true,
+          "label": "Fourth star"
+        },
+        {
+          "type": "checkbox",
+          "id": "fifth_star",
+          "default": true,
+          "label": "Fifth star"
+        },
+        {
+          "type": "checkbox",
+          "id": "half_star",
+          "default": true,
+          "label": "Half star"
+        },
+        {
+          "type": "header",
+          "content": "Review product setting"
+        },
+        {
+          "type": "checkbox",
+          "id": "review_product",
+          "label": "Product",
+          "default": true
+        },
+        {
+          "type": "product",
+          "label": "Product",
+          "id": "product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,24 @@
+<div class="compare-card-wrapper grid__item">
+  {% render 'card-product',
+    card_product: product,
+    media_aspect_ratio: settings.image_ratio,
+    image_shape: settings.image_shape,
+    show_secondary_image: settings.show_secondary_image,
+    show_vendor: settings.show_card_vendor,
+    show_rating: settings.show_rating,
+    skip_styles: skip_card_product_styles,
+    section_id: section.id,
+    quick_add: settings.quick_add
+  %}
+  <div class="product-hover">     
+    <button type="button" aria-label="Add to compare" class="" button-compare data-product-handle="{{ product.handle }}">
+       <span class="svg-wrapper">{{- 'icon-close-small.svg' | inline_asset_content -}}</span>
+    </button>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "templates": ["product"]
+  }
+{% endschema %}

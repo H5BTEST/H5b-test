@@ -22,6 +22,7 @@
       "blocks": {
         "prizma_otp_social_login_prizma_otp_login_M3JP3h": {
           "type": "shopify://apps/prizma-otp-social-login/blocks/prizma-otp-login/d7706112-a008-46aa-8fb1-a6c9b74bfa5d",
+          "disabled": true,
           "settings": {
             "top_margin_mobile": 0,
             "top_margin_desktop": 0,
@@ -51,7 +52,6 @@
         },
         "miniorange_otp_login_register_otp_register_cjTFD9": {
           "type": "shopify://apps/miniorange-otp-login-register/blocks/otp-register/dba67ab6-2825-41e1-83fd-7500e426945d",
-          "disabled": true,
           "settings": {
             "container_alignment": "center",
             "container_width": 500,

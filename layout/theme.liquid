@@ -329,6 +329,135 @@
                   preload: true
                 }}
     </div>{% endcomment %}
+
+    {% if collection.handle == 'summer-waitlist' %}
+
+{% comment %} <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  var isLoggedIn = {% if customer and customer.tags contains 'waitlist_temp' %}true{% else %}false{% endif %};
+
+  if (!isLoggedIn) {
+    var popup = document.getElementById("WaitlistPopup");
+    if (popup) {
+      popup.style.display = "block";
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  // ❌ Close button
+  var closeBtn = document.querySelector(".waitlist-close");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", function () {
+      document.getElementById("WaitlistPopup").style.display = "none";
+      document.body.style.overflow = "auto";
+    });
+  }
+
+  // 📝 Register click → flag set
+  var registerBtn = document.getElementById("waitlist-register");
+  if (registerBtn) {
+    registerBtn.addEventListener("click", function () {
+      localStorage.setItem("waitlist_flow", "true");
+    });
+  }
+
+});
+</script> {% endcomment %}
+
+<div id="WaitlistPopup" class="waitlist-popup" {% if customer and customer.tags contains 'join_waitlist' %} style="display:none;" {% endif %}>
+  <div class="waitlist-overlay"></div>
+
+  <div class="waitlist-box">
+    {% comment %} <button class="waitlist-close">&times;</button> {% endcomment %}
+
+    <h2>Join Summer Waitlist ☀️</h2>
+    <p>Please login or create an account to access this collection.</p>
+
+    <div class="waitlist-actions">
+      
+      <!-- ✅ LOGIN -->
+      <a href="/account/login?return_url=/collections/summer-waitlist?waitlist=true" class="waitlist-btn login-btn">
+        Login
+      </a>
+
+      <!-- ✅ REGISTER -->
+      {% comment %} <a href="/account/register?return_url=/collections/summer-waitlist?waitlist=true" class="waitlist-btn register-btn" id="waitlist-register">
+        Create Account
+      </a> {% endcomment %}
+
+    </div>
+  </div>
+</div>
+
+<style>
+.waitlist-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.waitlist-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: block !important;
+}
+
+.waitlist-box {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  background: #fff;
+  margin: 100px auto;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 2;
+}
+
+.waitlist-actions {
+  margin-top: 20px;
+}
+
+.waitlist-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.login-btn {
+  background: #000;
+  color: #fff;
+}
+
+.register-btn {
+  background: #f5f5f5;
+  color: #000;
+}
+
+.waitlist-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+</style>
+
+{% endif %}
     
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}

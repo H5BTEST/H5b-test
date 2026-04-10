@@ -729,7 +729,51 @@ document.addEventListener("DOMContentLoaded", function() {
   initBYOBTextFill();
 });
 </script>
+{% comment %} <script>
+document.addEventListener("DOMContentLoaded", function () {
 
+  var isLoggedIn = {% if customer %}true{% else %}false{% endif %};
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const isWaitlist = urlParams.get("waitlist") === "true";
+
+  // 🔥 COMMON FUNCTION (tag add)
+  function triggerWaitlistTag() {
+    fetch("/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        "form_type": "customer",
+        "utf8": "✓",
+        "contact[email]": "{{ customer.email }}",
+        "contact[tags]": "waitlist_temp"
+      })
+    });
+  }
+
+  // ✅ LOGIN FLOW
+  if (isLoggedIn && isWaitlist) {
+    triggerWaitlistTag();
+  }
+
+  // ✅ REGISTER FLOW (Lucent fix)
+  if (isLoggedIn && localStorage.getItem("waitlist_flow") === "true") {
+
+    localStorage.removeItem("waitlist_flow");
+
+    // redirect to waitlist page
+    if (!window.location.href.includes("waitlist=true")) {
+      window.location.href = "/collections/summer-waitlist?waitlist=true";
+      return;
+    }
+
+    triggerWaitlistTag();
+  }
+
+});
+</script> {% endcomment %}
 
   </body>
 </html>

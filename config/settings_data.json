@@ -263,19 +263,19 @@
           "text_color": "#ffffff"
         }
       },
-      "9717370649079274736": {
-        "type": "shopify://apps/otp-login-notify/blocks/app-embed-block/c26b7b17-273d-4800-af62-8ec88ba18251",
-        "disabled": false,
-        "settings": {}
-      },
       "4335028968536508377": {
         "type": "shopify://apps/uppush-order-limit/blocks/uppush-order-limit/ca40887b-827e-4555-9209-0b817b582223",
         "disabled": false,
         "settings": {}
       },
+      "9717370649079274736": {
+        "type": "shopify://apps/otp-login-notify/blocks/app-embed-block/c26b7b17-273d-4800-af62-8ec88ba18251",
+        "disabled": true,
+        "settings": {}
+      },
       "18378115731771045039": {
         "type": "shopify://apps/miniorange-otp-login-register/blocks/otp-login-popup/dba67ab6-2825-41e1-83fd-7500e426945d",
-        "disabled": true,
+        "disabled": false,
         "settings": {
           "popup_vertical_padding": 0,
           "popup_horizontal_padding": 0,

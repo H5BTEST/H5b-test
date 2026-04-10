@@ -255,36 +255,6 @@
           "custom_class": ""
         }
       },
-      "18378115731771045039": {
-        "type": "shopify://apps/miniorange-otp-login-register/blocks/otp-login-popup/dba67ab6-2825-41e1-83fd-7500e426945d",
-        "disabled": false,
-        "settings": {
-          "popup_vertical_padding": 0,
-          "popup_horizontal_padding": 0,
-          "elements_spacing": 24,
-          "heading_type": "text",
-          "heading_text": "Login with OTP",
-          "heading_text_color": "#000000",
-          "sender_toggle_active_bg": "#F4F4F4",
-          "sender_toggle_inactive_bg": "#f4f4f4",
-          "sender_toggle_active_text_color": "#000000",
-          "sender_toggle_inactive_text_color": "#9A9A9A",
-          "sender_phone_label": "Phone",
-          "sender_email_label": "Email",
-          "sender_whatsapp_label": "WhatsApp",
-          "input_bg_color": "#ffffff",
-          "input_text_color": "#000000",
-          "input_font_size": 15,
-          "phone_input_placeholder": "Mobile Number",
-          "email_input_placeholder": "Email Address",
-          "button_label": "Send OTP",
-          "button_bg_color": "#000000",
-          "button_text_color": "#ffffff",
-          "footer_note_text": "",
-          "footer_note_color": "#666666",
-          "allow_country_selection": true
-        }
-      },
       "3149989000263460623": {
         "type": "shopify://apps/miniorange-otp-login-register/blocks/update-profile-app-embed/dba67ab6-2825-41e1-83fd-7500e426945d",
         "disabled": false,
@@ -302,6 +272,36 @@
         "type": "shopify://apps/uppush-order-limit/blocks/uppush-order-limit/ca40887b-827e-4555-9209-0b817b582223",
         "disabled": false,
         "settings": {}
+      },
+      "18378115731771045039": {
+        "type": "shopify://apps/miniorange-otp-login-register/blocks/otp-login-popup/dba67ab6-2825-41e1-83fd-7500e426945d",
+        "disabled": true,
+        "settings": {
+          "popup_vertical_padding": 0,
+          "popup_horizontal_padding": 0,
+          "elements_spacing": 24,
+          "heading_type": "text",
+          "heading_text": "Login with OTP",
+          "heading_text_color": "#000000",
+          "sender_toggle_active_bg": "#f4f4f4",
+          "sender_toggle_inactive_bg": "#f4f4f4",
+          "sender_toggle_active_text_color": "#000000",
+          "sender_toggle_inactive_text_color": "#9a9a9a",
+          "sender_phone_label": "Phone",
+          "sender_email_label": "Email",
+          "sender_whatsapp_label": "WhatsApp",
+          "input_bg_color": "#ffffff",
+          "input_text_color": "#000000",
+          "input_font_size": 15,
+          "phone_input_placeholder": "Mobile Number",
+          "email_input_placeholder": "Email Address",
+          "button_label": "Send OTP",
+          "button_bg_color": "#000000",
+          "button_text_color": "#ffffff",
+          "footer_note_text": "",
+          "footer_note_color": "#666666",
+          "allow_country_selection": true
+        }
       }
     },
     "color_schemes": {

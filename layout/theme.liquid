@@ -365,7 +365,7 @@
     });
     </script>
 
-    <div id="WaitlistPopup" class="waitlist-popup" {% if customer and customer.tags contains 'join_waitlist' %} style="display:none;" {% endif %}>
+    <div id="WaitlistPopup" class="waitlist-popup" {% if customer and customer.tags contains 'waitlist_temp' %} style="display:none;" {% endif %}>
       <div class="waitlist-overlay"></div>
 
       <div class="waitlist-box">

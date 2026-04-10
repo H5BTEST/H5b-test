@@ -20,8 +20,38 @@
     "1758273447d8544c84": {
       "type": "apps",
       "blocks": {
+        "prizma_otp_social_login_prizma_otp_login_M3JP3h": {
+          "type": "shopify://apps/prizma-otp-social-login/blocks/prizma-otp-login/d7706112-a008-46aa-8fb1-a6c9b74bfa5d",
+          "settings": {
+            "top_margin_mobile": 0,
+            "top_margin_desktop": 0,
+            "show_logo_or_text": "logo",
+            "icon_size": 40,
+            "header_text": "Login",
+            "enable_phone_login": true,
+            "enable_whatsapp_login": true,
+            "enable_email_login": true,
+            "show_button_labels": false,
+            "default_login_channel": "phone",
+            "enable_google_login": true,
+            "enable_facebook_login": true,
+            "social_button_theme": "light",
+            "primary_color": "#000000",
+            "secondary_color": "#FFA500",
+            "custom_font": "inherit",
+            "label_font_size": 18,
+            "button_font_size": 18,
+            "input_font_size": 20,
+            "custom_classes": "",
+            "disclaimer_html": "",
+            "show_additional_field": false,
+            "additional_field_label": "Note",
+            "additional_field_required": false
+          }
+        },
         "miniorange_otp_login_register_otp_register_cjTFD9": {
           "type": "shopify://apps/miniorange-otp-login-register/blocks/otp-register/dba67ab6-2825-41e1-83fd-7500e426945d",
+          "disabled": true,
           "settings": {
             "container_alignment": "center",
             "container_width": 500,
@@ -59,6 +89,7 @@
         }
       },
       "block_order": [
+        "prizma_otp_social_login_prizma_otp_login_M3JP3h",
         "miniorange_otp_login_register_otp_register_cjTFD9"
       ],
       "settings": {

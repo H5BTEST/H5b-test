@@ -1409,6 +1409,114 @@ $(document).ready(function() {
 });
 /* Text Split Animation */ 
 
+/* Before After */
+$(document).ready(function () {
+  $(".before-after").each(function () {
+    let $beforeAfter = $(this);
+    let sectionId = $beforeAfter.data("section-id");
+    let animationStyle = $beforeAfter.data("animation-style");
+    let isDragging = false;
+    let startX = 0;
+    let startPercent = 0; // Default position 0%
+    let hasAnimated = false; // Ensures smooth transition happens only once
+
+    // Set initial position to 0% if drag mode is enabled
+    if (animationStyle === "drag") {
+      $beforeAfter.css("--before-after-initial-drag-position", "0%");
+    }
+
+    // Function to check if .compare-img-section is 50% in viewport
+    function checkViewport() {
+      if (animationStyle !== "drag") return;
+
+      let $compareSection = $beforeAfter.closest(".compare-img-section");
+      if (!$compareSection.length || hasAnimated) return;
+
+      let sectionTop = $compareSection.offset().top;
+      let sectionHeight = $compareSection.outerHeight();
+      let viewportHeight = $(window).height();
+      let scrollTop = $(window).scrollTop();
+      let sectionMidpoint = sectionTop + sectionHeight / 2;
+      let viewportMidpoint = scrollTop + viewportHeight / 2;
+
+      if (viewportMidpoint >= sectionMidpoint) {
+        $beforeAfter.addClass("smooth-transition");
+        $beforeAfter.css("--before-after-initial-drag-position", "50%");
+        startPercent = 50;
+        hasAnimated = true;
+      }
+    }
+
+    setTimeout(checkViewport, 200);
+
+    $beforeAfter.on("click", function (e) {
+      let sectionOffset = $beforeAfter.offset().left;
+      let sectionWidth = $beforeAfter.width();
+
+      let clickX = e.pageX ?? e.originalEvent.touches?.[0]?.pageX;
+      if (clickX === undefined) return;
+
+      let newPosition = ((clickX - sectionOffset) / sectionWidth) * 100;
+      newPosition = Math.max(0, Math.min(100, newPosition));
+
+      $beforeAfter.removeClass("smooth-transition");
+      $beforeAfter.css("--before-after-initial-drag-position", `${newPosition}%`);
+    });
+
+    if (animationStyle === "drag") {
+      $beforeAfter.find(".before-after__cursor-wrapper").on("mousedown touchstart", function (e) {
+        e.preventDefault();
+        isDragging = true;
+        $beforeAfter.removeClass("smooth-transition");
+
+        startX = e.pageX ?? e.originalEvent.touches?.[0]?.pageX;
+        if (startX === undefined) return;
+
+        startPercent = parseFloat(getComputedStyle($beforeAfter[0])
+          .getPropertyValue("--before-after-initial-drag-position")) || 0;
+      });
+
+      $(document).on("mousemove touchmove", function (e) {
+        if (!isDragging) return;
+
+        let currentX = e.pageX ?? e.originalEvent.touches?.[0]?.pageX;
+        if (currentX === undefined) return;
+
+        let deltaX = currentX - startX;
+        let sectionWidth = $beforeAfter.width();
+        let newPosition = startPercent + (deltaX / sectionWidth) * 100;
+
+        newPosition = Math.max(0, Math.min(100, newPosition));
+        $beforeAfter.css("--before-after-initial-drag-position", `${newPosition}%`);
+      });
+
+      $(document).on("mouseup touchend", function () {
+        isDragging = false;
+      });
+    }
+
+    if (animationStyle === "scroll") {
+      $(window).scroll(function () {
+        if (isDragging) return;
+
+        const sectionTop = $beforeAfter.offset().top - 300;
+        const sectionHeight = $beforeAfter.outerHeight() - 200;
+        const scrollTop = $(window).scrollTop();
+        const scrollProgress = Math.min(Math.max((scrollTop - sectionTop) / sectionHeight, 0), 1);
+        const dragPosition = 100 - scrollProgress * 100;
+
+        $beforeAfter.css("--before-after-initial-drag-position", `${dragPosition}%`);
+      });
+    }
+
+    if (animationStyle === "drag") {
+      $(window).on("scroll", checkViewport);
+    }
+  });
+});
+
+/* Before After  */
+
 /* Image Movement Floating Animation  */ 
 $(document).ready(function () {
   gsap.registerPlugin(ScrollTrigger);

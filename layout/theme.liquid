@@ -314,6 +314,39 @@
   </head>
 
   <body class="gradient {% if request.page_type == 'policy' %}policy-page{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+
+    <div id="wa-popup" style="display:none;position:fixed;bottom:20px;left:20px;background:#fff;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.2);z-index:9999;">
+  <h4>Get updates on WhatsApp</h4>
+  <input type="text" id="wa-phone" placeholder="Enter WhatsApp number" style="padding:8px;width:100%;margin-bottom:10px;">
+  <button onclick="sendData()" style="padding:10px 15px;background:black;color:white;border:none;">Submit</button>
+</div>
+
+<script>
+setTimeout(() => {
+  if (!localStorage.getItem("waPopupShown")) {
+    document.getElementById("wa-popup").style.display = "block";
+    localStorage.setItem("waPopupShown", "yes");
+  }
+}, 3000);
+
+function sendData() {
+  let phone = document.getElementById("wa-phone").value;
+
+  fetch("YOUR_N8N_WEBHOOK_URL", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      phone: phone
+    })
+  });
+
+  alert("Thank you!");
+  document.getElementById("wa-popup").style.display = "none";
+}
+</script>
+
    {% comment %} <div class="preloader">
       {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
                 {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}

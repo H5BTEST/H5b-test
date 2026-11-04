@@ -88,10 +88,6 @@
             "swatch_shape": "circle"
           }
         },
-        "recharge_subscriptions_subscription_widget_v2_GB3A7k": {
-          "type": "shopify://apps/recharge-subscriptions/blocks/subscription-widget-v2/371eed76-0b44-4869-9813-730372ea378e",
-          "settings": {}
-        },
         "seal_subscriptions_subscription_widget_bgYmn9": {
           "type": "shopify://apps/seal-subscriptions/blocks/subscription-widget/13b25004-a140-4ab7-b5fe-29918f759699",
           "settings": {
@@ -171,7 +167,6 @@
         "separator_Q9RzQd",
         "description",
         "variant_picker",
-        "recharge_subscriptions_subscription_widget_v2_GB3A7k",
         "seal_subscriptions_subscription_widget_bgYmn9",
         "buy_buttons",
         "inventory_Uf33U4",
@@ -569,6 +564,21 @@
         "padding_top": 80,
         "padding_bottom": 80
       }
+    },
+    "1793774845c1ff9706": {
+      "type": "apps",
+      "blocks": {
+        "reelme_reelify_section_RgLpJb": {
+          "type": "shopify://apps/reelme/blocks/reelify-section/019b9281-4b4d-7fac-9362-f43cb90e74cc",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "reelme_reelify_section_RgLpJb"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
@@ -583,6 +593,7 @@
     "single_banner_wdBf6E",
     "banner_section_FEQzWA",
     "1746164127b6c08de4",
-    "related-products"
+    "related-products",
+    "1793774845c1ff9706"
   ]
 }

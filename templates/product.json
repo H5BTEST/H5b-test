@@ -568,13 +568,13 @@
     "1793774845c1ff9706": {
       "type": "apps",
       "blocks": {
-        "reelme_reelify_section_RgLpJb": {
+        "reelme_reelify_section_nwgCax": {
           "type": "shopify://apps/reelme/blocks/reelify-section/019b9281-4b4d-7fac-9362-f43cb90e74cc",
           "settings": {}
         }
       },
       "block_order": [
-        "reelme_reelify_section_RgLpJb"
+        "reelme_reelify_section_nwgCax"
       ],
       "settings": {
         "include_margins": true

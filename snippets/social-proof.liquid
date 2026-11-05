@@ -44,7 +44,7 @@
     {%- assign action = "now" | date: "%N" | modulo: actiondiff | plus: actionmin -%}
     
     {%- for i in (1..10) -%}
-    {%- assign randomNumber = "now" | date: "%N" | modulo: proddiff | plus: prodmin | plus: {{i}} -%}
+    {%- assign randomNumber = "now" | date: "%N" | modulo: proddiff | plus: prodmin | plus: i -%}
     {%- assign minutes = "now" | date: "%N" | modulo: timediff | plus: timemin -%}
     {% if prodlinks[randomNumber] != blank %}
     <li class="proof" rel="{{randomNumber}}">
@@ -61,4 +61,15 @@
     {%- endfor -%}
   </ul>
 </div>
-{% endif %}
+{% endif %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{%- assign randomNumber = "now" | date: "%N" | modulo: proddiff | plus: prodmin
+    | plus: {{i}} -%}'
+  to: '{%- assign randomNumber = "now" | date: "%N" | modulo: proddiff | plus: prodmin
+    | plus: i -%}'
+  position: 1918..2011
+{%- endcomment -%}
